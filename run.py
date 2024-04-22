@@ -4,6 +4,7 @@ import asyncio
 import json
 import threading
 import tkinter as tk
+from datetime import datetime
 from pathlib import Path
 from sys import modules, platform
 from tkinter import filedialog, messagebox, ttk
@@ -181,6 +182,39 @@ class Application(tk.Tk):
         )
         self.guild_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
+        # 创建玩家列表标签页
+        self.player_list_tab = ttk.Frame(self.tab_frame)
+        self.tab_frame.add(self.player_list_tab, text="玩家列表")
+
+        self.player_list = ttk.Treeview(
+            self.player_list_tab,
+            show="headings",
+            yscrollcommand=self.update_player_list_scrollbar,
+        )
+        self.player_list.config(
+            columns=("公会 ID", "公会名称", "玩家 UID", "昵称", "等级", "最后在线")
+        )
+        self.player_list.column("公会 ID", stretch=False)
+        self.player_list.column("公会名称", stretch=False)
+        self.player_list.column("玩家 UID", stretch=False)
+        self.player_list.column("等级", stretch=False)
+        self.player_list.column("最后在线", width=12 * 31, stretch=False)
+        self.player_list.heading("公会 ID", text="公会 ID")
+        self.player_list.heading("公会名称", text="公会名称")
+        self.player_list.heading("玩家 UID", text="玩家 UID")
+        self.player_list.heading("昵称", text="昵称")
+        self.player_list.heading("等级", text="等级")
+        self.player_list.heading("最后在线", text="最后在线")
+        # for i in range(len(self.player_list["columns"])):
+        for i in [0, 2, 4, 5]:
+            self.player_list.bind(self.sort_by(self.player_list, i, True))
+        self.player_list.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+        self.player_list_scrollbar = ttk.Scrollbar(
+            self.player_list_tab, orient=tk.VERTICAL, command=self.player_list.yview
+        )
+        self.player_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
         # 创建状态栏
         self.status_bar = ttk.Frame(self)
         self.status_bar.pack(fill=tk.X, side=tk.BOTTOM)
@@ -235,6 +269,14 @@ class Application(tk.Tk):
             self.guild_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
             self.guild_list_scrollbar.set(first, last)
 
+    def update_player_list_scrollbar(self, first, last):
+        first, last = float(first), float(last)
+        if first <= 0 and last >= 1:
+            self.player_list_scrollbar.pack_forget()
+        else:
+            self.player_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.player_list_scrollbar.set(first, last)
+
     def update_source_filename(self, filename: str = ""):
         self.source_filename.set(filename)
         self.source_filename_entry.update()
@@ -243,6 +285,7 @@ class Application(tk.Tk):
         self.select_source_button.config(state=state)
         # self.save_and_convert_button.config(state=state)
         # self.save_button.config(state=state)
+        self.tab_frame.tab(self.player_list_tab, state=state)
 
     def switch_state_to_normal(self):
         self.switch_state(tk.NORMAL)
@@ -268,6 +311,7 @@ class Application(tk.Tk):
         if hasattr(self, "data"):
             del self.data
         self.guild_list.delete(*self.guild_list.get_children())
+        self.player_list.delete(*self.player_list.get_children())
         self.progress(0)
 
     def progress(self, value):
@@ -298,6 +342,9 @@ class Application(tk.Tk):
         # print(find_value_path(self.data, "无名公会"))
         # print(find_value_path(self.data, "Unnamed Guild"))
         self.world_save_data = self.data["properties"]["worldSaveData"]["value"]
+        self.real_date_time_ticks = self.world_save_data["GameTimeSaveData"]["value"][
+            "RealDateTimeTicks"
+        ]["value"]
         for i in self.world_save_data["GroupSaveDataMap"]["value"]:
             group_data: dict = i["value"]["RawData"]["value"]
             print(group_data.keys())
@@ -326,7 +373,100 @@ class Application(tk.Tk):
             }
             self.guild_list.insert("", "end", values=list(guild_data.values())[0:5])
             self.progress(3)
+            for player in group_data.get("players", []):
+                print(player)
+                keys = find_value_path(
+                    self.world_save_data["CharacterSaveParameterMap"],
+                    player["player_info"]["player_name"],
+                )
+                character_data = {
+                    k: v
+                    for k, v in self.world_save_data[
+                        "CharacterSaveParameterMap"
+                    ].items()
+                }
+                for k in keys[:-2]:
+                    character_data = character_data[k]
+                # print(character_data.keys())
+                # print(character_data["NickName"]["value"])
+                player_data = {
+                    "公会 ID": group_data["group_id"],
+                    "公会名称": group_data.get("guild_name"),
+                    "玩家 UID": player["player_uid"],
+                    "昵称": character_data["NickName"]["value"],
+                    "等级": (
+                        character_data["Level"]["value"]
+                        if character_data.get("Level")
+                        else 1
+                    ),
+                    "最后在线": self.strtime(
+                        player["player_info"]["last_online_real_time"]
+                    ),
+                    "经验值": (
+                        character_data["Exp"]["value"]
+                        if character_data.get("Exp")
+                        else 0
+                    ),
+                    "HP": character_data["HP"]["value"],
+                    "饱腹度": character_data["FullStomach"]["value"],
+                    "是玩家": character_data["IsPlayer"]["value"],
+                    "支援": character_data["Support"]["value"],
+                    "制作速度": character_data["CraftSpeed"]["value"],
+                    "各项制作速度": character_data["CraftSpeeds"]["value"],
+                    "护盾 HP": (
+                        character_data["ShieldHP"]["value"]
+                        if character_data.get("ShieldHP")
+                        else 0
+                    ),
+                    "护盾最大 HP": (
+                        character_data["ShieldMaxHP"]["value"]
+                        if character_data.get("ShieldMaxHP")
+                        else 0
+                    ),
+                    "最大 SP": (
+                        character_data["MaxSP"]["value"]
+                        if character_data.get("MaxSP")
+                        else 0
+                    ),
+                    "SAN 值": (
+                        character_data["SanityValue"]["value"]
+                        if character_data.get("SanityValue")
+                        else 100.0
+                    ),
+                    "未使用的状态点数": (
+                        character_data["UnusedStatusPoint"]["value"]
+                        if character_data.get("UnusedStatusPoint")
+                        else 0
+                    ),
+                    "已使用的状态点数": (
+                        character_data["GotStatusPointList"]["value"]["values"]
+                        if character_data.get("GotStatusPointList")
+                        else []
+                    ),
+                    "已使用的附加状态点数": (
+                        character_data["GotExStatusPointList"]["value"]["values"]
+                        if character_data.get("GotExStatusPointList")
+                        else []
+                    ),
+                    "最近传送位置": (
+                        character_data["LastJumpedLocation"]["value"]
+                        if character_data.get("LastJumpedLocation")
+                        else {"x": 0.0, "y": 0.0, "z": 0.0}
+                    ),
+                    "语音 ID": character_data["VoiceID"],
+                }
+                self.player_list.insert(
+                    "", "end", values=list(player_data.values())[0:6]
+                )
+            self.progress(4)
+        self.sort_by(self.player_list, 5, True)
         self.progress(100)
+
+    def strtime(self, ticks: int):
+        timestamp = (
+            self.file_path.stat().st_mtime + (ticks - self.real_date_time_ticks) / 1e7
+        )
+        return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def find_value_path(nested_dict: dict, target_value, path=None):
