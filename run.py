@@ -12,6 +12,7 @@ from tkinter import filedialog, messagebox, ttk
 from save_tools import palworld_save_tools
 
 modules["palworld_save_tools"] = palworld_save_tools
+from L10N import L10N
 from save_tools.palworld_save_tools.gvas import GvasFile
 from save_tools.palworld_save_tools.json_tools import CustomEncoder
 from save_tools.palworld_save_tools.palsav import (
@@ -88,8 +89,26 @@ class Application(tk.Tk):
         self.base_font_size = 7
         self.recommended_ipadx = self.base_font_size - 2
         self.recommended_ipady = (self.base_font_size - 2) // 2
+        self.l10n = L10N()
         self.create_widgets()
         self.on_startup_threading()
+        self.apply_locale(startup=True)
+
+    def apply_locale(self, locale: str = None, *, startup: bool = False):
+        self.l10n.set_locale(locale)
+        FILE_TYPES[0][0] = self.l10n.get("All supported file types")
+        FILE_TYPES[1][0] = self.l10n.get("Palworld main save")
+        FILE_TYPES[2][0] = self.l10n.get("Palworld main save JSON")
+        self.title(self.l10n.get("Palworld Save Editor"))
+        self.select_source_button.config(text=self.l10n.get("Choose File"))
+        self.save_and_convert_button.config(
+            text=self.l10n.get("Save and Convert to SAV")
+        )
+        self.save_button.config(text=self.l10n.get("Save"))
+        self.tab_frame.tab(0, text=self.l10n.get("Guild List"))
+        self.tab_frame.tab(1, text=self.l10n.get("Player List"))
+        self.setup_treeviews(startup=startup)
+        self.status_label.config(text=self.l10n.get("Ready"))
 
     def on_startup_threading(self):
         threading.Thread(target=self.on_startup).start()
@@ -156,27 +175,7 @@ class Application(tk.Tk):
             show="headings",
             yscrollcommand=self.update_guild_list_scrollbar,
         )
-        self.guild_list.config(
-            columns=("公会 ID", "公会名称", "据点等级", "据点数量", "成员数量")
-        )
-        self.guild_list.column("公会 ID", width=self.base_font_size * 37, stretch=False)
-        self.guild_list.column(
-            "据点等级", width=self.base_font_size * 10, stretch=False
-        )
-        self.guild_list.column(
-            "据点数量", width=self.base_font_size * 10, stretch=False
-        )
-        self.guild_list.column(
-            "成员数量", width=self.base_font_size * 10, stretch=False
-        )
-        self.guild_list.heading("公会 ID", text="公会 ID")
-        self.guild_list.heading("公会名称", text="公会名称")
-        self.guild_list.heading("据点等级", text="据点等级")
-        self.guild_list.heading("据点数量", text="据点数量")
-        self.guild_list.heading("成员数量", text="成员数量")
-        # for i in range(len(self.guild_list["columns"])):
-        for i in [0, 2, 3, 4]:
-            self.guild_list.bind(self.sort_by(self.guild_list, i, True))
+        self.setup_guild_list(startup=True)
         self.guild_list.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
 
         self.guild_list_scrollbar = ttk.Scrollbar(
@@ -193,41 +192,7 @@ class Application(tk.Tk):
             show="headings",
             yscrollcommand=self.update_player_list_scrollbar,
         )
-        self.player_list.config(
-            columns=(
-                "公会 ID",
-                "公会名称",
-                "玩家 UID",
-                "昵称",
-                "等级",
-                "经验值",
-                "最后在线",
-            )
-        )
-        self.player_list.column(
-            "公会 ID", width=self.base_font_size * 10, stretch=False
-        )
-        self.player_list.column(
-            "公会名称", width=self.base_font_size * 12, stretch=False
-        )
-        self.player_list.column(
-            "玩家 UID", width=self.base_font_size * 37, stretch=False
-        )
-        self.player_list.column("等级", width=self.base_font_size * 7, stretch=False)
-        self.player_list.column("经验值", width=self.base_font_size * 10, stretch=False)
-        self.player_list.column(
-            "最后在线", width=self.base_font_size * 19, stretch=False
-        )
-        self.player_list.heading("公会 ID", text="公会 ID")
-        self.player_list.heading("公会名称", text="公会名称")
-        self.player_list.heading("玩家 UID", text="玩家 UID")
-        self.player_list.heading("昵称", text="昵称")
-        self.player_list.heading("等级", text="等级")
-        self.player_list.heading("经验值", text="经验值")
-        self.player_list.heading("最后在线", text="最后在线")
-        # for i in range(len(self.player_list["columns"])):
-        for i in [0, 2, 4, 5, 6]:
-            self.player_list.bind(self.sort_by(self.player_list, i, True))
+        self.setup_player_list(startup=True)
         self.player_list.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
 
         self.player_list_scrollbar = ttk.Scrollbar(
@@ -252,6 +217,21 @@ class Application(tk.Tk):
 
         ttk.Separator(self.status_bar, orient=tk.VERTICAL).pack(fill=tk.Y, side=tk.LEFT)
 
+        self.l10n_menu_button = ttk.Menubutton(self.status_bar, text="L10N")
+        self.l10n_menu = tk.Menu(self.l10n_menu_button, tearoff=False)
+        self.l10n_menu_button.config(menu=self.l10n_menu)
+        for locale in self.l10n.get_locales():
+            self.l10n_menu.add_command(
+                label=locale, command=lambda locale=locale: self.apply_locale(locale)
+            )
+        self.l10n_menu_button.pack(
+            side=tk.RIGHT, ipadx=self.recommended_ipadx, ipady=self.recommended_ipady
+        )
+
+        ttk.Separator(self.status_bar, orient=tk.VERTICAL).pack(
+            fill=tk.Y, side=tk.RIGHT
+        )
+
         self.save_tools_version_label = ttk.Label(self.status_bar)
         self.save_tools_version_label.pack(
             fill=tk.X,
@@ -263,6 +243,112 @@ class Application(tk.Tk):
         ttk.Separator(self.status_bar, orient=tk.VERTICAL).pack(
             fill=tk.Y, side=tk.RIGHT
         )
+
+    def setup_guild_list(self, *, startup: bool = False):
+        if startup:
+            self.guild_list.config(
+                columns=("公会 ID", "公会名称", "据点等级", "据点数量", "成员数量")
+            )
+        if self.l10n.get_locale() == "zh_Hans":
+            self.guild_list.column(
+                "公会 ID", width=self.base_font_size * 37, stretch=False
+            )
+            self.guild_list.column(
+                "据点等级", width=self.base_font_size * 10, stretch=False
+            )
+            self.guild_list.column(
+                "据点数量", width=self.base_font_size * 10, stretch=False
+            )
+            self.guild_list.column(
+                "成员数量", width=self.base_font_size * 10, stretch=False
+            )
+        elif self.l10n.get_locale() == "en":
+            self.guild_list.column(
+                "公会 ID", width=self.base_font_size * 37, stretch=False
+            )
+            self.guild_list.column(
+                "据点等级", width=self.base_font_size * 16, stretch=False
+            )
+            self.guild_list.column(
+                "据点数量", width=self.base_font_size * 17, stretch=False
+            )
+            self.guild_list.column(
+                "成员数量", width=self.base_font_size * 15, stretch=False
+            )
+        self.guild_list.heading("公会 ID", text=self.l10n.get("Guild ID"))
+        self.guild_list.heading("公会名称", text=self.l10n.get("Guild Name"))
+        self.guild_list.heading("据点等级", text=self.l10n.get("Base Camp Level"))
+        self.guild_list.heading("据点数量", text=self.l10n.get("Base Camp Count"))
+        self.guild_list.heading("成员数量", text=self.l10n.get("Member Count"))
+        # for i in range(len(self.guild_list.cget("columns"))):
+        for i in [0, 2, 3, 4]:
+            self.guild_list.bind(self.sort_by(self.guild_list, i, True))
+
+    def setup_player_list(self, *, startup: bool = False):
+        if startup:
+            self.player_list.config(
+                columns=(
+                    "公会 ID",
+                    "公会名称",
+                    "玩家 UID",
+                    "昵称",
+                    "等级",
+                    "经验值",
+                    "最后在线",
+                )
+            )
+        if self.l10n.get_locale() == "zh_Hans":
+            self.player_list.column(
+                "公会 ID", width=self.base_font_size * 10, stretch=False
+            )
+            self.player_list.column(
+                "公会名称", width=self.base_font_size * 12, stretch=False
+            )
+            self.player_list.column(
+                "玩家 UID", width=self.base_font_size * 37, stretch=False
+            )
+            self.player_list.column(
+                "等级", width=self.base_font_size * 7, stretch=False
+            )
+            self.player_list.column(
+                "经验值", width=self.base_font_size * 10, stretch=False
+            )
+            self.player_list.column(
+                "最后在线", width=self.base_font_size * 19, stretch=False
+            )
+        elif self.l10n.get_locale() == "en":
+            self.player_list.column(
+                "公会 ID", width=self.base_font_size * 10, stretch=False
+            )
+            self.player_list.column(
+                "公会名称", width=self.base_font_size * 12, stretch=False
+            )
+            self.player_list.column(
+                "玩家 UID", width=self.base_font_size * 37, stretch=False
+            )
+            self.player_list.column(
+                "等级", width=self.base_font_size * 7, stretch=False
+            )
+            self.player_list.column(
+                "经验值", width=self.base_font_size * 10, stretch=False
+            )
+            self.player_list.column(
+                "最后在线", width=self.base_font_size * 19, stretch=False
+            )
+        self.player_list.heading("公会 ID", text=self.l10n.get("Guild ID"))
+        self.player_list.heading("公会名称", text=self.l10n.get("Guild Name"))
+        self.player_list.heading("玩家 UID", text=self.l10n.get("Player UID"))
+        self.player_list.heading("昵称", text=self.l10n.get("Nickname"))
+        self.player_list.heading("等级", text=self.l10n.get("Level"))
+        self.player_list.heading("经验值", text=self.l10n.get("Exp"))
+        self.player_list.heading("最后在线", text=self.l10n.get("Last Online"))
+        # for i in range(len(self.player_list.cget("columns"))):
+        for i in [0, 2, 4, 5, 6]:
+            self.player_list.bind(self.sort_by(self.player_list, i, True))
+
+    def setup_treeviews(self, *, startup: bool = False):
+        self.setup_guild_list(startup=startup)
+        self.setup_player_list(startup=startup)
 
     def sort_by(self, tv: ttk.Treeview, col, descending):
         data = [(tv.set(child, col), child) for child in tv.get_children("")]
@@ -303,11 +389,11 @@ class Application(tk.Tk):
 
     def switch_state_to_normal(self):
         self.switch_state(tk.NORMAL)
-        self.status_label.config(text="准备就绪")
+        self.status_label.config(text=self.l10n.get("Ready"))
 
     def switch_state_to_disabled(self):
         self.switch_state(tk.DISABLED)
-        self.status_label.config(text="正在处理")
+        self.status_label.config(text=self.l10n.get("Processing"))
 
     def switch_state_decorator(func):
         def wrapper(self: Application, *args, **kwargs):
@@ -337,14 +423,16 @@ class Application(tk.Tk):
     @switch_state_decorator
     def select_source(self):
         filename = filedialog.askopenfilename(
-            title="选择 Palworld 主存档", filetypes=FILE_TYPES
+            title=self.l10n.get("Choose Palworld main save"), filetypes=FILE_TYPES
         )
         if not filename:
             return
         self.update_source_filename(filename)
         self.file_path = Path(self.source_filename.get())
         if not self.file_path.exists():
-            messagebox.showerror("错误", "文件不存在。")
+            messagebox.showerror(
+                self.l10n.get("Error"), self.l10n.get("File not exists.")
+            )
             return
         self.clean_all()
         self.progress(1)
