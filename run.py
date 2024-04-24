@@ -4,6 +4,7 @@ import asyncio
 import json
 import threading
 import tkinter as tk
+from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from sys import modules, platform
@@ -78,6 +79,216 @@ FILE_TYPES = [
     ["Palworld 主存档 JSON", "json"],
 ]
 FILE_TYPES.insert(0, ["所有支持的文件类型", tuple(i[1] for i in FILE_TYPES)])
+
+
+@dataclass
+class Guild:
+    group_data: dict
+
+    def config(self, key: str, value):
+        if key in self.keys_map:
+            group_data = self.group_data
+            for k in self.keys_map[key][:-1]:
+                group_data = group_data[k]
+            group_data[self.keys_map[key][-1]] = value
+            setattr(self, key, value)
+        else:
+            raise ValueError(f"Guild.{key} 是无法编辑的。")
+
+    def __post_init__(self):
+        self.group_type: str = self.group_data["group_type"]
+        self.group_id: str = self.group_data["group_id"]
+        self.group_name: str = self.group_data["group_name"]
+        self.individual_character_handle_ids: list[dict[str]] = self.group_data[
+            "individual_character_handle_ids"
+        ]
+        self.org_type: int = self.group_data["org_type"]
+        self.base_ids: list = self.group_data.get("base_ids", [])
+        self.base_camp_level: int = (
+            self.group_data["base_camp_level"]
+            if self.group_data.get("base_camp_level")
+            else 1
+        )
+        self.map_object_instance_ids_base_camp_points: list[str] = self.group_data[
+            "map_object_instance_ids_base_camp_points"
+        ]
+        self.guild_name: str = self.group_data.get("guild_name")
+        self.admin_player_uid: str = self.group_data.get("admin_player_uid")
+        self.players: list = self.group_data.get("players", [])
+
+        self.base_ids_count = len(self.base_ids)
+        self.players_count = len(self.players)
+
+    @property
+    def keys_map(self):
+        return {"guild_name": ["guild_name"], "base_camp_level": ["base_camp_level"]}
+
+    @property
+    def values(self):
+        return [
+            self.group_id,
+            self.guild_name,
+            self.base_camp_level,
+            self.base_ids_count,
+            self.players_count,
+        ]
+
+
+class GuildEditWindow(tk.Toplevel):
+    def __init__(self, parent: Application, guild: Guild):
+        super().__init__(parent)
+        self.parent = parent
+        self.guild = guild
+        self.title(parent.l10n.get("Edit Guild"))
+        self.minsize(800, 500)
+        self.resizable(False, False)
+        self.create_widgets()
+        self.modified = False
+        self.focus_set()
+
+    def create_widgets(self):
+        self.group_id_frame = ttk.Frame(self)
+        self.group_id_frame.pack(fill=tk.X, expand=True)
+
+        self.group_id_label = ttk.Label(
+            self.group_id_frame, text=self.parent.l10n.get("Guild ID")
+        )
+        self.group_id_label.pack(
+            side=tk.LEFT,
+            fill=tk.X,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.group_id_stringvar = tk.StringVar(value=self.guild.group_id)
+        self.group_id_entry = ttk.Entry(
+            self.group_id_frame, textvariable=self.group_id_stringvar, state=tk.DISABLED
+        )
+        self.group_id_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.guild_name_frame = ttk.Frame(self)
+        self.guild_name_frame.pack(fill=tk.X, expand=True)
+
+        self.guild_name_label = ttk.Label(
+            self.guild_name_frame, text=self.parent.l10n.get("Guild Name")
+        )
+        self.guild_name_label.pack(
+            side=tk.LEFT,
+            fill=tk.X,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.guild_name_stringvar = tk.StringVar(value=self.guild.guild_name)
+        self.guild_name_entry = ttk.Entry(
+            self.guild_name_frame, textvariable=self.guild_name_stringvar
+        )
+        self.guild_name_entry.bind("<Return>", lambda _: self.save())
+        self.guild_name_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.base_camp_level_frame = ttk.Frame(self)
+        self.base_camp_level_frame.pack(fill=tk.X, expand=True)
+
+        self.base_camp_level_label = ttk.Label(
+            self.base_camp_level_frame, text=self.parent.l10n.get("Base Camp Level")
+        )
+        self.base_camp_level_label.pack(
+            side=tk.LEFT,
+            fill=tk.X,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        validate_level_input_command = self.register(self.validate_level_input)
+
+        self.base_camp_level_stringvar = tk.StringVar(value=self.guild.base_camp_level)
+        self.base_camp_level_entry = ttk.Spinbox(
+            self.base_camp_level_frame,
+            from_=1,
+            to=20,
+            textvariable=self.base_camp_level_stringvar,
+            validate="key",
+            validatecommand=(validate_level_input_command, "%P"),
+        )
+        self.base_camp_level_entry.bind("<Return>", lambda _: self.save())
+        self.base_camp_level_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx - 6,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.save_button = ttk.Button(
+            self, text=self.parent.l10n.get("Save"), command=self.save
+        )
+        self.save_button.pack(
+            fill=tk.BOTH,
+            expand=True,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+        )
+
+    def validate_level_input(self, level: str):
+        if not level.isdigit():
+            return False
+        if int(level) < 1 or int(level) > 20:
+            return False
+        return True
+
+    def validate(self):
+        if not self.guild_name_entry.get():
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Guild Name cannot be empty."),
+                parent=self,
+            )
+            return False
+        if not self.base_camp_level_entry.get():
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Base Camp Level cannot be empty."),
+                parent=self,
+            )
+            return False
+        return True
+
+    def save(self):
+        if not self.validate():
+            return
+        if self.guild.guild_name != self.guild_name_entry.get():
+            self.guild.config("guild_name", self.guild_name_entry.get())
+            self.modified = True
+        if self.guild.base_camp_level != int(self.base_camp_level_entry.get()):
+            self.guild.config("base_camp_level", int(self.base_camp_level_entry.get()))
+            self.modified = True
+        self.destroy()
+
+        if not self.modified:
+            return
+        # 更新父窗口的数据
+        self.parent.guild_list.delete(*self.parent.guild_list.get_children())
+        guild_map = {k: v for k, v in self.parent.guild_map.items()}
+        self.parent.guild_map.clear()
+        for guild in guild_map.values():
+            row_id = self.parent.guild_list.insert("", "end", values=guild.values)
+            self.parent.guild_map[row_id] = guild
+
+    def destroy(self) -> None:
+        self.parent.focus_set()
+        return super().destroy()
 
 
 class Application(tk.Tk):
@@ -355,6 +566,20 @@ class Application(tk.Tk):
         # for i in range(len(self.guild_list.cget("columns"))):
         for i in [0, 2, 3, 4]:
             self.guild_list.bind(self.sort_by(self.guild_list, i, True))
+        self.guild_list.bind("<Button-3>", self.on_guild_list_right_click)
+
+    def on_guild_list_right_click(self, event):
+        guild = self.get_selected_guild()
+        if not guild:
+            return
+        self.guild_edit_window = GuildEditWindow(self, guild)
+        self.guild_edit_window.grab_set()
+
+    def get_selected_guild(self):
+        item = self.guild_list.focus()
+        if not item:
+            return
+        return self.guild_map[item]
 
     def setup_player_list(self, *, startup: bool = False):
         self.player_list.config(
@@ -536,6 +761,8 @@ class Application(tk.Tk):
         if hasattr(self, "kv_character_id"):
             del self.kv_character_id
         self.character_id_list.config(values=[])
+        if hasattr(self, "guild_map"):
+            del self.guild_map
 
         # 离开帕鲁列表标签页，不然加载速度会很慢
         # if self.tab_frame.index("current") == self.tab_frame.index(self.pal_list_tab):
@@ -575,6 +802,7 @@ class Application(tk.Tk):
         self.real_date_time_ticks = self.world_save_data["GameTimeSaveData"]["value"][
             "RealDateTimeTicks"
         ]["value"]
+        self.guild_map: dict[str, Guild] = {}
         for i in self.world_save_data["GroupSaveDataMap"]["value"]:
             group_data: dict = i["value"]["RawData"]["value"]
             print(group_data.keys())
@@ -584,24 +812,9 @@ class Application(tk.Tk):
                     f"{group_data['group_id']}, skipping",
                 )
                 continue
-            guild_data = {
-                "公会 ID": group_data["group_id"],
-                "公会名称": group_data.get("guild_name"),
-                "据点等级": group_data.get("base_camp_level"),
-                "据点数量": len(group_data.get("base_ids", [])),
-                "成员数量": len(group_data.get("players", [])),
-                "公会会长 ID": group_data.get("admin_player_uid"),
-                "group_type": group_data["group_type"],
-                "group_name": group_data["group_name"],
-                "individual_character_handle_ids": group_data[
-                    "individual_character_handle_ids"
-                ],
-                "org_type": group_data["org_type"],
-                "map_object_instance_ids_base_camp_points": group_data[
-                    "map_object_instance_ids_base_camp_points"
-                ],
-            }
-            self.guild_list.insert("", "end", values=list(guild_data.values())[0:5])
+            guild = Guild(group_data)
+            row_id = self.guild_list.insert("", "end", values=guild.values)
+            self.guild_map[row_id] = guild
             self.progress(3)
             for player in group_data.get("players", []):
                 print(player)

@@ -166,4 +166,16 @@ LOCALE = {
         "en": "All",
         "zh_Hans": "全部",
     },
+    "Edit Guild": {
+        "en": "Edit Guild",
+        "zh_Hans": "编辑公会",
+    },
+    "Guild Name cannot be empty.": {
+        "en": "Guild Name cannot be empty.",
+        "zh_Hans": "公会名称不能为空。",
+    },
+    "Base Camp Level cannot be empty.": {
+        "en": "Base Camp Level cannot be empty.",
+        "zh_Hans": "据点等级不能为空。",
+    },
 }
