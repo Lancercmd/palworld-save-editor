@@ -107,7 +107,26 @@ class Application(tk.Tk):
         self.save_button.config(text=self.l10n.get("Save"))
         self.tab_frame.tab(0, text=self.l10n.get("Guild List"))
         self.tab_frame.tab(1, text=self.l10n.get("Player List"))
+        self.tab_frame.tab(2, text=self.l10n.get("Pal List"))
         self.setup_treeviews(startup=startup)
+        self.pal_container_label.config(text=self.l10n.get("Filter by Container ID"))
+        self.character_id_label.config(text=self.l10n.get("Filter by Character ID"))
+        if self.container_id_list.cget("values"):
+            self.container_id_list.config(
+                values=[self.l10n.get("All")]
+                + sorted(list(self.container_id_list.cget("values")[1:]))
+            )
+            current = self.container_id_list.current()
+            current = 0 if current < 0 else current
+            self.container_id_list.current(current)
+        if self.character_id_list.cget("values"):
+            self.character_id_list.config(
+                values=[self.l10n.get("All")]
+                + sorted(list(self.character_id_list.cget("values")[1:]))
+            )
+            current = self.character_id_list.current()
+            current = 0 if current < 0 else current
+            self.character_id_list.current(current)
         self.status_label.config(text=self.l10n.get("Ready"))
 
     def on_startup_threading(self):
@@ -199,6 +218,70 @@ class Application(tk.Tk):
             self.player_list_tab, orient=tk.VERTICAL, command=self.player_list.yview
         )
         self.player_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        # 创建帕鲁列表标签页
+        self.pal_list_tab = ttk.Frame(self.tab_frame)
+        self.tab_frame.add(self.pal_list_tab, text="帕鲁列表")
+
+        self.pal_list_filter_frame = ttk.Frame(self.pal_list_tab)
+        self.pal_list_filter_frame.pack(side=tk.TOP, fill=tk.X)
+
+        self.pal_container_label = ttk.Label(
+            self.pal_list_filter_frame, text="按容器 ID 筛选"
+        )
+        self.pal_container_label.pack(
+            side=tk.LEFT, padx=self.recommended_ipadx, pady=self.recommended_ipady
+        )
+
+        self.container_id_list = ttk.Combobox(
+            self.pal_list_filter_frame, justify=tk.CENTER
+        )
+        self.container_id_list.bind(
+            "<<ComboboxSelected>>", lambda _: self.filter_pal_list()
+        )
+        self.container_id_list.bind("<Return>", lambda _: self.filter_pal_list())
+        self.container_id_list.pack(
+            side=tk.LEFT,
+            fill=tk.X,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            expand=True,
+        )
+
+        self.character_id_label = ttk.Label(
+            self.pal_list_filter_frame, text="按帕鲁 ID 筛选"
+        )
+        self.character_id_label.pack(
+            side=tk.LEFT, padx=self.recommended_ipadx, pady=self.recommended_ipady
+        )
+
+        self.character_id_list = ttk.Combobox(
+            self.pal_list_filter_frame, justify=tk.CENTER
+        )
+        self.character_id_list.bind(
+            "<<ComboboxSelected>>", lambda _: self.filter_pal_list()
+        )
+        self.character_id_list.bind("<Return>", lambda _: self.filter_pal_list())
+        self.character_id_list.pack(
+            side=tk.LEFT,
+            fill=tk.X,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            expand=True,
+        )
+
+        self.pal_list = ttk.Treeview(
+            self.pal_list_tab,
+            show="headings",
+            yscrollcommand=self.update_pal_list_scrollbar,
+        )
+        self.setup_pal_list(startup=True)
+        self.pal_list.pack(fill=tk.BOTH, expand=True, side=tk.LEFT)
+
+        self.pal_list_scrollbar = ttk.Scrollbar(
+            self.pal_list_tab, orient=tk.VERTICAL, command=self.pal_list.yview
+        )
+        self.pal_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         # 创建状态栏
         self.status_bar = ttk.Frame(self)
@@ -346,9 +429,57 @@ class Application(tk.Tk):
         for i in [0, 2, 4, 5, 6]:
             self.player_list.bind(self.sort_by(self.player_list, i, True))
 
+    def setup_pal_list(self, *, startup: bool = False):
+        if startup:
+            self.pal_list.config(
+                columns=(
+                    "帕鲁 ID",
+                    "性别",
+                    "等级",
+                    "经验值",
+                    "HP 个体值",
+                    "近战攻击 个体值",
+                    "远程攻击 个体值",
+                    "防御力 个体值",
+                    "被动技能",
+                    # "HP",
+                    # "SAN 值",
+                )
+            )
+        self.pal_list.column("帕鲁 ID", width=self.base_font_size * 14, stretch=False)
+        self.pal_list.column("性别", width=self.base_font_size * 8, stretch=False)
+        self.pal_list.column("等级", width=self.base_font_size * 7, stretch=False)
+        self.pal_list.column("经验值", width=self.base_font_size * 9, stretch=False)
+        self.pal_list.column("HP 个体值", width=self.base_font_size * 10, stretch=False)
+        self.pal_list.column(
+            "近战攻击 个体值", width=self.base_font_size * 13, stretch=False
+        )
+        self.pal_list.column(
+            "远程攻击 个体值", width=self.base_font_size * 11, stretch=False
+        )
+        self.pal_list.column(
+            "防御力 个体值", width=self.base_font_size * 14, stretch=False
+        )
+        self.pal_list.column("被动技能", width=self.base_font_size * 9)
+        self.pal_list.heading("帕鲁 ID", text=self.l10n.get("Character ID"))
+        self.pal_list.heading("性别", text=self.l10n.get("Gender"))
+        self.pal_list.heading("等级", text=self.l10n.get("Level"))
+        self.pal_list.heading("经验值", text=self.l10n.get("Exp"))
+        self.pal_list.heading("HP 个体值", text=self.l10n.get("Talent: HP"))
+        self.pal_list.heading("近战攻击 个体值", text=self.l10n.get("Talent: Melee"))
+        self.pal_list.heading("远程攻击 个体值", text=self.l10n.get("Talent: Shot"))
+        self.pal_list.heading("防御力 个体值", text=self.l10n.get("Talent: Defense"))
+        self.pal_list.heading("被动技能", text=self.l10n.get("Passive Skills"))
+        # self.pal_list.heading("HP", text="HP")
+        # self.pal_list.heading("SAN 值", text="SAN 值")
+        # for i in range(len(self.pal_list.cget("columns"))):
+        for i in [0, 2, 3, 7, 6, 5, 4]:
+            self.pal_list.bind(self.sort_by(self.pal_list, i, True))
+
     def setup_treeviews(self, *, startup: bool = False):
         self.setup_guild_list(startup=startup)
         self.setup_player_list(startup=startup)
+        self.setup_pal_list(startup=startup)
 
     def sort_by(self, tv: ttk.Treeview, col, descending):
         data = [(tv.set(child, col), child) for child in tv.get_children("")]
@@ -377,6 +508,38 @@ class Application(tk.Tk):
             self.player_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
             self.player_list_scrollbar.set(first, last)
 
+    def update_pal_list_scrollbar(self, first, last):
+        first, last = float(first), float(last)
+        if first <= 0 and last >= 1:
+            self.pal_list_scrollbar.pack_forget()
+        else:
+            self.pal_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.pal_list_scrollbar.set(first, last)
+
+    def filter_pal_list(self):
+        container_id = self.container_id_list.get()
+        character_id = self.character_id_list.get()
+        container_id = None if container_id == self.l10n.get("All") else container_id
+        character_id = None if character_id == self.l10n.get("All") else character_id
+        self.pal_list.delete(*self.pal_list.get_children())
+        if (
+            container_id in self.kv_container_id
+            and character_id in self.kv_character_id
+        ):
+            for pal in self.kv_container_id[container_id]:
+                if pal["帕鲁 ID"] == character_id:
+                    self.pal_list.insert("", 0, values=list(pal.values())[0:10])
+        elif container_id in self.kv_container_id:
+            for pal in self.kv_container_id[container_id]:
+                self.pal_list.insert("", 0, values=list(pal.values())[0:10])
+        elif character_id in self.kv_character_id:
+            for pal in self.kv_character_id[character_id]:
+                self.pal_list.insert("", 0, values=list(pal.values())[0:10])
+        else:
+            for pal in self.kv_container_id:
+                for item in self.kv_container_id[pal]:
+                    self.pal_list.insert("", 0, values=list(item.values())[0:10])
+
     def update_source_filename(self, filename: str = ""):
         self.source_filename.set(filename)
         self.source_filename_entry.update()
@@ -386,6 +549,7 @@ class Application(tk.Tk):
         # self.save_and_convert_button.config(state=state)
         # self.save_button.config(state=state)
         self.tab_frame.tab(self.player_list_tab, state=state)
+        self.tab_frame.tab(self.pal_list_tab, state=state)
 
     def switch_state_to_normal(self):
         self.switch_state(tk.NORMAL)
@@ -412,6 +576,17 @@ class Application(tk.Tk):
             del self.data
         self.guild_list.delete(*self.guild_list.get_children())
         self.player_list.delete(*self.player_list.get_children())
+        if hasattr(self, "kv_container_id"):
+            del self.kv_container_id
+        self.container_id_list.config(values=[])
+        self.pal_list.delete(*self.pal_list.get_children())
+        if hasattr(self, "kv_character_id"):
+            del self.kv_character_id
+        self.character_id_list.config(values=[])
+
+        # 离开帕鲁列表标签页，不然加载速度会很慢
+        # if self.tab_frame.index("current") == self.tab_frame.index(self.pal_list_tab):
+        #     self.tab_frame.select(self.player_list_tab)
         self.progress(0)
 
     def progress(self, value):
@@ -562,6 +737,172 @@ class Application(tk.Tk):
                 )
             self.progress(4)
         self.sort_by(self.player_list, 6, True)
+        self.character_save_parameter_map = self.world_save_data[
+            "CharacterSaveParameterMap"
+        ]["value"]
+        len_ = len(self.character_save_parameter_map)
+        count = 0
+        self.kv_container_id = {}
+        self.kv_character_id = {}
+        for i in self.character_save_parameter_map:
+            character_data: dict = i["value"]["RawData"]["value"]["object"][
+                "SaveParameter"
+            ]["value"]
+            # print(character_data)
+            if not character_data.get("CharacterID"):
+                if (
+                    character_data["IsPlayer"]["value"]
+                    if character_data.get("IsPlayer")
+                    else False
+                ):
+                    continue
+                print(
+                    "Warning: Unknown data structure for character_id:",
+                    f"{character_data['CharacterID']}, skipping",
+                )
+            pal_data = {
+                "帕鲁 ID": character_data["CharacterID"]["value"],
+                "性别": get_gender(character_data),
+                "等级": (
+                    character_data["Level"]["value"]
+                    if character_data.get("Level")
+                    else 1
+                ),
+                "经验值": (
+                    character_data["Exp"]["value"] if character_data.get("Exp") else 0
+                ),
+                "HP 个体值": (
+                    character_data["Talent_HP"]["value"]
+                    if character_data.get("Talent_HP")
+                    else 0
+                ),
+                "近战攻击 个体值": (
+                    character_data["Talent_Melee"]["value"]
+                    if character_data.get("Talent_Melee")
+                    else 0
+                ),
+                "远程攻击 个体值": (
+                    character_data["Talent_Shot"]["value"]
+                    if character_data.get("Talent_Shot")
+                    else 0
+                ),
+                "防御力 个体值": (
+                    character_data["Talent_Defense"]["value"]
+                    if character_data.get("Talent_Defense")
+                    else 0
+                ),
+                "被动技能": (
+                    character_data["PassiveSkillList"]["value"]
+                    if character_data.get("PassiveSkillList")
+                    else {"values": []}
+                ),
+                "HP": (
+                    character_data["HP"]["value"]["Value"]["value"] // 1000
+                    if character_data.get("HP")
+                    else 0
+                ),
+                "SAN 值": (
+                    int(character_data["SanityValue"]["value"])
+                    if character_data.get("SanityValue")
+                    else 100.0
+                ),
+                "浓缩等级": (
+                    character_data["Rank"]["value"] if character_data.get("Rank") else 0
+                ),
+                "HP 强化等级": (
+                    character_data["Rank_HP"]["value"]
+                    if character_data.get("Rank_HP")
+                    else 0
+                ),
+                "攻击力 强化等级": (
+                    character_data["Rank_Attack"]["value"]
+                    if character_data.get("Rank_Attack")
+                    else 0
+                ),
+                "防御力 强化等级": (
+                    character_data["Rank_Defence"]["value"]
+                    if character_data.get("Rank_Defence")
+                    else 0
+                ),
+                "工作速度 强化等级": (
+                    character_data["Rank_CraftSpeed"]["value"]
+                    if character_data.get("Rank_CraftSpeed")
+                    else 0
+                ),
+                "已装备的技能": character_data["EquipWaza"]["value"],
+                "饱腹度": (
+                    character_data["FullStomach"]["value"]
+                    if character_data.get("FullStomach")
+                    else 0.0
+                ),
+                "MP": character_data["MP"]["value"] if character_data.get("MP") else 0,
+                "历任所有者 ID": character_data["OldOwnerPlayerUIds"]["value"],
+                "制作速度": character_data["CraftSpeed"]["value"],
+                "各项制作速度": character_data["CraftSpeeds"]["value"],
+                "道具容器 ID": (
+                    character_data["ItemContainerId"]["value"]
+                    if character_data.get("ItemContainerId")
+                    else ""
+                ),
+                "装备容器 ID": character_data["EquipItemContainerId"]["value"],
+                "槽位 ID": character_data["SlotID"]["value"],
+                "最大饱腹度": (
+                    character_data["MaxFullStomach"]["value"]
+                    if character_data.get("MaxFullStomach")
+                    else 0.0
+                ),
+                "已使用的状态点数": (
+                    character_data["GotStatusPointList"]["value"]["values"]
+                    if character_data.get("GotStatusPointList")
+                    else []
+                ),
+                "已使用的附加状态点数": (
+                    character_data["GotExStatusPointList"]["value"]["values"]
+                    if character_data.get("GotExStatusPointList")
+                    else []
+                ),
+                "饱腹度下降率": (
+                    character_data["DecreaseFullStomachRates"]["value"]
+                    if character_data.get("DecreaseFullStomachRates")
+                    else 1.0
+                ),
+                "SAN 值变化率": (
+                    character_data["AffectSanityRates"]["value"]
+                    if character_data.get("AffectSanityRates")
+                    else 1.0
+                ),
+                "制作速度倍率": (
+                    character_data["CraftSpeedRates"]["value"]
+                    if character_data.get("CraftSpeedRates")
+                    else 1.0
+                ),
+                "最近传送位置": (
+                    character_data["LastJumpedLocation"]["value"]
+                    if character_data.get("LastJumpedLocation")
+                    else {"x": 0.0, "y": 0.0, "z": 0.0}
+                ),
+            }
+            self.pal_list.insert("", 0, values=list(pal_data.values())[0:10])
+            container_id = character_data["SlotID"]["value"]["ContainerId"]["value"][
+                "ID"
+            ]["value"]
+            if not self.kv_container_id.get(container_id):
+                self.kv_container_id[container_id] = []
+            self.kv_container_id[container_id].append(pal_data)
+            character_id = character_data["CharacterID"]["value"]
+            if not self.kv_character_id.get(character_id):
+                self.kv_character_id[character_id] = []
+            self.kv_character_id[character_id].append(pal_data)
+            count += 1
+            self.progress(4 + (count / len_) * 96)
+        self.container_id_list.config(
+            values=[self.l10n.get("All")] + sorted(list(self.kv_container_id))
+        )
+        self.character_id_list.config(
+            values=[self.l10n.get("All")] + sorted(list(self.kv_character_id))
+        )
+        self.container_id_list.current(0)
+        self.character_id_list.current(0)
         self.progress(100)
 
     def strtime(self, ticks: int):
@@ -569,6 +910,18 @@ class Application(tk.Tk):
             self.file_path.stat().st_mtime + (ticks - self.real_date_time_ticks) / 1e7
         )
         return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
+
+
+def get_gender(character_data: dict):
+    if not character_data.get("Gender"):
+        return ""
+    gender_data = character_data["Gender"]["value"]
+    if gender_data["value"] == "EPalGenderType::Male":
+        return "Male"
+    elif gender_data["value"] == "EPalGenderType::Female":
+        return "Female"
+    else:
+        return gender_data["value"]
 
 
 def find_value_path(nested_dict: dict, target_value, path=None):

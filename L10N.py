@@ -122,4 +122,52 @@ LOCALE = {
         "en": "Last Online",
         "zh_Hans": "最后在线",
     },
+    "Pal List": {
+        "en": "Pal List",
+        "zh_Hans": "帕鲁列表",
+    },
+    "Filter by Container ID": {
+        "en": "Filter by Container ID",
+        "zh_Hans": "按容器 ID 筛选",
+    },
+    "Filter by Character ID": {
+        "en": "Filter by Character ID",
+        "zh_Hans": "按帕鲁 ID 筛选",
+    },
+    "Character ID": {
+        "en": "Character ID",
+        "zh_Hans": "帕鲁 ID",
+    },
+    "Gender": {
+        "en": "Gender",
+        "zh_Hans": "性别",
+    },
+    "Exp": {
+        "en": "Exp",
+        "zh_Hans": "经验值",
+    },
+    "Talent: HP": {
+        "en": "Talent: HP",
+        "zh_Hans": "个体：HP",
+    },
+    "Talent: Melee": {
+        "en": "Talent: Melee",
+        "zh_Hans": "个体：近战",
+    },
+    "Talent: Shot": {
+        "en": "Talent: Shot",
+        "zh_Hans": "个体：远程",
+    },
+    "Talent: Defense": {
+        "en": "Talent: Defense",
+        "zh_Hans": "个体：防御",
+    },
+    "Passive Skills": {
+        "en": "Passive Skills",
+        "zh_Hans": "被动技能",
+    },
+    "All": {
+        "en": "All",
+        "zh_Hans": "全部",
+    },
 }
