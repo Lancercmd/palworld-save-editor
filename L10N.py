@@ -182,4 +182,28 @@ LOCALE = {
         "en": "Base Camp Level cannot be empty.",
         "zh_Hans": "据点等级不能为空。",
     },
+    "Edit Player": {
+        "en": "Edit Player",
+        "zh_Hans": "编辑玩家",
+    },
+    "Align": {
+        "en": "Align",
+        "zh_Hans": "对齐",
+    },
+    "Nickname cannot be empty.": {
+        "en": "Nickname cannot be empty.",
+        "zh_Hans": "昵称不能为空。",
+    },
+    "Level cannot be empty.": {
+        "en": "Level cannot be empty.",
+        "zh_Hans": "等级不能为空。",
+    },
+    "Level must be a number.": {
+        "en": "Level must be a number.",
+        "zh_Hans": "等级必须是数字。",
+    },
+    "Level cannot be lower than the current.": {
+        "en": "Level cannot be lower than the current.",
+        "zh_Hans": "等级不能低于当前等级。",
+    },
 }

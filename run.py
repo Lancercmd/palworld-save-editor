@@ -24,6 +24,7 @@ from save_tools.palworld_save_tools.paltypes import (
     PALWORLD_CUSTOM_PROPERTIES,
     PALWORLD_TYPE_HINTS,
 )
+from unpack import DT_PET
 
 
 async def get_submodule_commit():
@@ -280,6 +281,326 @@ class GuildEditWindow(tk.Toplevel):
         for guild in guild_map.values():
             row_id = self.parent.guild_list.insert("", "end", values=guild.values)
             self.parent.guild_map[row_id] = guild
+
+    def destroy(self) -> None:
+        self.parent.focus_set()
+        return super().destroy()
+
+
+@dataclass
+class Player:
+    character_data: dict
+    guild_data: Guild
+    player_uid: str
+    last_online_real_time: str
+
+    def config(self, key: str, value):
+        if key in self.keys_map:
+            character_data = self.character_data
+            for k in self.keys_map[key][:-1]:
+
+                if not k in character_data:
+                    if k == "Exp":
+                        character_data[k] = {
+                            "id": None,
+                            "value": 0,
+                            "type": "IntProperty",
+                        }
+                    elif k == "NickName":
+                        character_data[k] = {
+                            "id": None,
+                            "value": "",
+                            "type": "StrProperty",
+                        }
+
+                character_data = character_data[k]
+            character_data[self.keys_map[key][-1]] = value
+            setattr(self, key, value)
+        else:
+            raise ValueError(f"Player.{key} 是无法编辑的。")
+
+    def __post_init__(self):
+        self.level: int = (
+            self.character_data["Level"]["value"]
+            if self.character_data.get("Level")
+            else 1
+        )
+        self.exp: int = (
+            self.character_data["Exp"]["value"] if self.character_data.get("Exp") else 0
+        )
+        self.nickname: str = self.character_data["NickName"]["value"]
+        self.hp: int = self.character_data["HP"]["value"]["Value"]["value"]
+        self.full_stomach: float = self.character_data["FullStomach"]["value"]
+        self.is_player: bool = self.character_data["IsPlayer"]["value"]
+        self.support: int = self.character_data["Support"]["value"]
+        self.craft_speed: int = self.character_data["CraftSpeed"]["value"]
+        self.craft_speeds: list = self.character_data["CraftSpeeds"]["value"]["values"]
+        self.shield_hp: int = (
+            self.character_data["ShieldHP"]["value"]["Value"]["value"]
+            if self.character_data.get("ShieldHP")
+            else 0
+        )
+        self.shield_max_hp: int = (
+            self.character_data["ShieldMaxHP"]["value"]["Value"]["value"]
+            if self.character_data.get("ShieldMaxHP")
+            else 0
+        )
+        self.max_sp: int = (
+            self.character_data["MaxSP"]["value"]
+            if self.character_data.get("MaxSP")
+            else 0
+        )
+        self.sanity_value: float = (
+            self.character_data["SanityValue"]["value"]
+            if self.character_data.get("SanityValue")
+            else 100.0
+        )
+        self.unused_status_point: int = (
+            self.character_data["UnusedStatusPoint"]["value"]
+            if self.character_data.get("UnusedStatusPoint")
+            else 0
+        )
+        self.got_status_point_list: list[dict] = (
+            self.character_data["GotStatusPointList"]["value"]["values"]
+            if self.character_data.get("GotStatusPointList")
+            else []
+        )
+        self.got_ex_status_point_list: list[dict] = (
+            self.character_data["GotExStatusPointList"]["value"]["values"]
+            if self.character_data.get("GotExStatusPointList")
+            else []
+        )
+        self.last_jumped_location: dict = (
+            self.character_data["LastJumpedLocation"]["value"]
+            if self.character_data.get("LastJumpedLocation")
+            else {"x": 0.0, "y": 0.0, "z": 0.0}
+        )
+        self.voice_id: int = self.character_data["VoiceID"]["value"]
+
+        self.group_id = self.guild_data.group_id
+        self.guild_name = self.guild_data.guild_name
+
+    @property
+    def keys_map(self):
+        return {"exp": ["Exp", "value"], "nickname": ["NickName", "value"]}
+
+    @property
+    def values(self):
+        return [
+            self.group_id,
+            self.guild_name,
+            self.player_uid,
+            self.nickname,
+            self.level,
+            self.exp,
+            self.last_online_real_time,
+        ]
+
+
+class PlayerEditWindow(tk.Toplevel):
+    def __init__(self, parent: Application, player: Player):
+        super().__init__(parent)
+        self.parent = parent
+        self.player = player
+        self.title(parent.l10n.get("Edit Player"))
+        self.minsize(300, 200)
+        self.resizable(False, False)
+        self.create_widgets()
+        self.modified = False
+        self.focus_set()
+
+    def create_widgets(self):
+        self.player_uid_frame = ttk.Frame(self)
+        self.player_uid_frame.pack(fill=tk.X, expand=True)
+
+        self.player_uid_label = ttk.Label(
+            self.player_uid_frame, text=self.parent.l10n.get("Player UID")
+        )
+        self.player_uid_label.pack(
+            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+        )
+
+        self.player_uid_stringvar = tk.StringVar(value=self.player.player_uid)
+        self.player_uid_entry = ttk.Entry(
+            self.player_uid_frame,
+            textvariable=self.player_uid_stringvar,
+            state=tk.DISABLED,
+        )
+        self.player_uid_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.nickname_frame = ttk.Frame(self)
+        self.nickname_frame.pack(fill=tk.X, expand=True)
+
+        self.nickname_label = ttk.Label(
+            self.nickname_frame, text=self.parent.l10n.get("Nickname")
+        )
+        self.nickname_label.pack(
+            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+        )
+
+        self.nickname_stringvar = tk.StringVar(value=self.player.nickname)
+        self.nickname_entry = ttk.Entry(
+            self.nickname_frame, textvariable=self.nickname_stringvar
+        )
+        self.nickname_entry.bind("<Return>", lambda _: self.save())
+        self.nickname_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.level_frame = ttk.Frame(self)
+        self.level_frame.pack(fill=tk.X, expand=True)
+
+        self.level_label = ttk.Label(
+            self.level_frame, text=self.parent.l10n.get("Level")
+        )
+        self.level_label.pack(
+            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+        )
+
+        validate_level_input_command = self.register(self.validate_level_input)
+
+        self.level_stringvar = tk.StringVar(value=self.player.level)
+        self.level_entry = ttk.Spinbox(
+            self.level_frame,
+            from_=max(2, self.player.level),
+            to=50,
+            textvariable=self.level_stringvar,
+            validate="key",
+            validatecommand=(validate_level_input_command, "%P"),
+            width=17,
+        )
+        self.level_entry.bind("<Return>", lambda _: self.save())
+        self.level_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx + 4,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.exp_frame = ttk.Frame(self)
+        self.exp_frame.pack(fill=tk.X, expand=True)
+
+        self.exp_label = ttk.Label(self.exp_frame, text=self.parent.l10n.get("Exp"))
+        self.exp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx)
+
+        self.exp_entry_align_button = ttk.Button(
+            self.exp_frame,
+            text=self.parent.l10n.get("Align"),
+            command=self.validate,
+            width=6,
+        )
+        self.exp_entry_align_button.pack(
+            side=tk.RIGHT,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+            padx=self.parent.recommended_ipadx,
+        )
+
+        self.exp_stringvar = tk.StringVar(value=self.player.exp)
+        self.exp_entry = ttk.Entry(
+            self.exp_frame, textvariable=self.exp_stringvar, state=tk.DISABLED, width=10
+        )
+        self.exp_entry.pack(
+            side=tk.RIGHT,
+            anchor=tk.E,
+            fill=tk.X,
+            ipadx=self.parent.recommended_ipadx + 2,
+            ipady=self.parent.recommended_ipady,
+        )
+
+        self.save_button = ttk.Button(
+            self, text=self.parent.l10n.get("Save"), command=self.save
+        )
+        self.save_button.pack(
+            fill=tk.BOTH,
+            expand=True,
+            ipadx=self.parent.recommended_ipadx,
+            ipady=self.parent.recommended_ipady,
+        )
+
+    def validate_level_input(self, level: str):
+        if not level.isdigit():
+            return False
+        if int(level) > 50:
+            return False
+        if int(self.level_entry.get()) != self.player.level:
+            self.exp_stringvar.set(DT_PET[level]["TotalEXP"] - 1)
+        else:
+            self.exp_stringvar.set(self.player.exp)
+        return True
+
+    def validate(self):
+        if not self.nickname_entry.get():
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Nickname cannot be empty."),
+                parent=self,
+            )
+            return False
+        if not self.level_entry.get():
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Level cannot be empty."),
+                parent=self,
+            )
+            return False
+        if not self.level_entry.get().isdigit():
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Level must be a number."),
+                parent=self,
+            )
+            return False
+        # 等级不能低于当前等级
+        if int(self.level_entry.get()) < self.player.level:
+            messagebox.showerror(
+                self.parent.l10n.get("Error"),
+                self.parent.l10n.get("Level cannot be lower than the current."),
+                parent=self,
+            )
+            return False
+        if int(self.level_entry.get()) != self.player.level:
+            self.exp_stringvar.set(DT_PET[self.level_entry.get()]["TotalEXP"] - 1)
+        else:
+            self.exp_stringvar.set(self.player.exp)
+        return True
+
+    def save(self):
+        if not self.validate():
+            return
+        if self.player.nickname != self.nickname_entry.get():
+            self.player.config("nickname", self.nickname_entry.get())
+            self.modified = True
+        if self.player.level != int(self.level_entry.get()) and self.player.exp != int(
+            self.exp_entry.get()
+        ):
+            self.player.config("exp", int(self.exp_entry.get()))
+            self.modified = True
+        self.destroy()
+
+        if not self.modified:
+            return
+        # 更新父窗口的数据
+        self.parent.player_list.delete(*self.parent.player_list.get_children())
+        player_map = {k: v for k, v in self.parent.player_map.items()}
+        self.parent.player_map.clear()
+        for player in player_map.values():
+            row_id = self.parent.player_list.insert("", "end", values=player.values)
+            self.parent.player_map[row_id] = player
 
     def destroy(self) -> None:
         self.parent.focus_set()
@@ -648,6 +969,20 @@ class Application(tk.Tk):
         # for i in range(len(self.player_list.cget("columns"))):
         for i in [0, 2, 4, 5, 6]:
             self.player_list.bind(self.sort_by(self.player_list, i, True))
+        self.player_list.bind("<Button-3>", self.on_player_list_right_click)
+
+    def on_player_list_right_click(self, event):
+        player = self.get_selected_player()
+        if not player:
+            return
+        self.player_edit_window = PlayerEditWindow(self, player)
+        self.player_edit_window.grab_set()
+
+    def get_selected_player(self):
+        item = self.player_list.focus()
+        if not item:
+            return
+        return self.player_map[item]
 
     def setup_pal_list(self, *, startup: bool = False):
         if startup:
@@ -805,6 +1140,8 @@ class Application(tk.Tk):
         self.character_id_list.config(values=[])
         if hasattr(self, "guild_map"):
             del self.guild_map
+        if hasattr(self, "player_map"):
+            del self.player_map
 
         # 离开帕鲁列表标签页，不然加载速度会很慢
         # if self.tab_frame.index("current") == self.tab_frame.index(self.pal_list_tab):
@@ -845,6 +1182,7 @@ class Application(tk.Tk):
             "RealDateTimeTicks"
         ]["value"]
         self.guild_map: dict[str, Guild] = {}
+        self.player_map: dict[str, Player] = {}
         for i in self.world_save_data["GroupSaveDataMap"]["value"]:
             group_data: dict = i["value"]["RawData"]["value"]
             print(group_data.keys())
@@ -874,75 +1212,15 @@ class Application(tk.Tk):
                     character_data = character_data[k]
                 # print(character_data.keys())
                 # print(character_data["NickName"]["value"])
-                player_data = {
-                    "公会 ID": group_data["group_id"],
-                    "公会名称": group_data.get("guild_name"),
-                    "玩家 UID": player["player_uid"],
-                    "昵称": character_data["NickName"]["value"],
-                    "等级": (
-                        character_data["Level"]["value"]
-                        if character_data.get("Level")
-                        else 1
-                    ),
-                    "经验值": (
-                        character_data["Exp"]["value"]
-                        if character_data.get("Exp")
-                        else 0
-                    ),
-                    "最后在线": self.strtime(
-                        player["player_info"]["last_online_real_time"]
-                    ),
-                    "HP": character_data["HP"]["value"],
-                    "饱腹度": character_data["FullStomach"]["value"],
-                    "是玩家": character_data["IsPlayer"]["value"],
-                    "支援": character_data["Support"]["value"],
-                    "制作速度": character_data["CraftSpeed"]["value"],
-                    "各项制作速度": character_data["CraftSpeeds"]["value"],
-                    "护盾 HP": (
-                        character_data["ShieldHP"]["value"]
-                        if character_data.get("ShieldHP")
-                        else 0
-                    ),
-                    "护盾最大 HP": (
-                        character_data["ShieldMaxHP"]["value"]
-                        if character_data.get("ShieldMaxHP")
-                        else 0
-                    ),
-                    "最大 SP": (
-                        character_data["MaxSP"]["value"]
-                        if character_data.get("MaxSP")
-                        else 0
-                    ),
-                    "SAN 值": (
-                        character_data["SanityValue"]["value"]
-                        if character_data.get("SanityValue")
-                        else 100.0
-                    ),
-                    "未使用的状态点数": (
-                        character_data["UnusedStatusPoint"]["value"]
-                        if character_data.get("UnusedStatusPoint")
-                        else 0
-                    ),
-                    "已使用的状态点数": (
-                        character_data["GotStatusPointList"]["value"]["values"]
-                        if character_data.get("GotStatusPointList")
-                        else []
-                    ),
-                    "已使用的附加状态点数": (
-                        character_data["GotExStatusPointList"]["value"]["values"]
-                        if character_data.get("GotExStatusPointList")
-                        else []
-                    ),
-                    "最近传送位置": (
-                        character_data["LastJumpedLocation"]["value"]
-                        if character_data.get("LastJumpedLocation")
-                        else {"x": 0.0, "y": 0.0, "z": 0.0}
-                    ),
-                    "语音 ID": character_data["VoiceID"],
-                }
-                self.player_list.insert(
-                    "", "end", values=list(player_data.values())[0:7]
+                player_uid = player["player_uid"]
+                last_online_real_time = self.strtime(
+                    player["player_info"]["last_online_real_time"]
                 )
+                player = Player(
+                    character_data, guild, player_uid, last_online_real_time
+                )
+                row_id = self.player_list.insert("", "end", values=player.values)
+                self.player_map[row_id] = player
             self.progress(4)
         self.sort_by(self.player_list, 6, True)
         self.character_save_parameter_map = self.world_save_data[
