@@ -668,6 +668,10 @@ class Application(tk.Tk):
             current = 0 if current < 0 else current
             self.character_id_list.current(current)
         self.status_label.config(text=self.l10n.get("Ready"))
+        self.tips_label.config(
+            text=self.l10n.get("MB1 to select items, MB3 to edit.")
+            + self.l10n.get("Please keep a backup in case of data loss.")
+        )
 
     def on_startup_threading(self):
         threading.Thread(target=self.on_startup).start()
@@ -851,6 +855,16 @@ class Application(tk.Tk):
         )
 
         ttk.Separator(self.status_bar, orient=tk.VERTICAL).pack(fill=tk.Y, side=tk.LEFT)
+
+        self.tips_label = ttk.Label(
+            self.status_bar,
+            text="左键选取列表项，右键编辑。请注意保留备份，以防数据丢失。",
+        )
+        self.tips_label.pack(
+            side=tk.LEFT,
+            padx=self.recommended_ipadx,
+            pady=self.recommended_ipady,
+        )
 
         self.l10n_menu_button = ttk.Menubutton(self.status_bar, text="L10N")
         self.l10n_menu = tk.Menu(self.l10n_menu_button, tearoff=False)
