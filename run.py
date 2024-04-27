@@ -683,7 +683,10 @@ class Application(tk.Tk):
         self.source_filename_entry.pack(fill=tk.X, ipady=self.recommended_ipady + 2)
 
         self.save_and_convert_button = ttk.Button(
-            self.top_bar, text="保存并转换为 SAV 文件", state=tk.DISABLED
+            self.top_bar,
+            text="保存并转换为 SAV 文件",
+            state=tk.DISABLED,
+            command=self.save_and_convert_threading,
         )
         self.save_and_convert_button.pack(
             side=tk.RIGHT,
@@ -693,7 +696,11 @@ class Application(tk.Tk):
         )
 
         self.save_button = ttk.Button(
-            self.top_bar, text="保存", width=4, state=tk.DISABLED
+            self.top_bar,
+            text="保存",
+            width=4,
+            state=tk.DISABLED,
+            command=self.save_threading,
         )
         self.save_button.pack(
             side=tk.RIGHT,
@@ -1101,8 +1108,8 @@ class Application(tk.Tk):
 
     def switch_state(self, state):
         self.select_source_button.config(state=state)
-        # self.save_and_convert_button.config(state=state)
-        # self.save_button.config(state=state)
+        self.save_and_convert_button.config(state=state)
+        self.save_button.config(state=state)
         self.tab_frame.tab(self.player_list_tab, state=state)
         self.tab_frame.tab(self.pal_list_tab, state=state)
 
@@ -1396,6 +1403,56 @@ class Application(tk.Tk):
             self.file_path.stat().st_mtime + (ticks - self.real_date_time_ticks) / 1e7
         )
         return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
+
+    def save_threading(self):
+        threading.Thread(target=self.save).start()
+
+    @switch_state_decorator
+    def save(self, filename: str = "", *, silent: bool = False):
+        filename = filename or filedialog.asksaveasfilename(
+            title=self.l10n.get("Save as JSON"),
+            filetypes=[FILE_TYPES[2]],
+            defaultextension=FILE_TYPES[2][1],
+            initialfile=self.file_path.stem,
+        )
+        if not filename:
+            return
+        if not filename.endswith(".json"):
+            filename += ".json"
+        if not silent:
+            self.progress(1)
+        Path(filename).write_text(
+            json.dumps(self.data, ensure_ascii=False, indent="\t"), encoding="utf-8"
+        )
+        if not silent:
+            self.progress(100)
+            messagebox.showinfo(
+                self.l10n.get("Save as JSON"), self.l10n.get("Save successfully.")
+            )
+
+    def save_and_convert_threading(self):
+        threading.Thread(target=self.save_and_convert).start()
+
+    @switch_state_decorator
+    def save_and_convert(self):
+        filename = filedialog.asksaveasfilename(
+            title=self.l10n.get("Save and Convert to SAV"),
+            filetypes=[FILE_TYPES[1]],
+            defaultextension=FILE_TYPES[1][1],
+            initialfile=self.file_path.stem,
+        )
+        if not filename:
+            return
+        self.progress(1)
+        self.save(filename, silent=True)
+        self.progress(50)
+        self.switch_state_to_disabled()
+        convert_dict_to_sav(self.data, Path(filename))
+        self.progress(100)
+        messagebox.showinfo(
+            self.l10n.get("Save and Convert to SAV"),
+            self.l10n.get("Save successfully."),
+        )
 
 
 def get_gender(character_data: dict):

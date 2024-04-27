@@ -206,4 +206,16 @@ LOCALE = {
         "en": "Level cannot be lower than the current.",
         "zh_Hans": "等级不能低于当前等级。",
     },
+    "Save as JSON": {
+        "en": "Save as JSON",
+        "zh_Hans": "保存为 JSON 文件",
+    },
+    "Info": {
+        "en": "Info",
+        "zh_Hans": "信息",
+    },
+    "Save successfully.": {
+        "en": "Save successfully.",
+        "zh_Hans": "保存成功。",
+    },
 }
