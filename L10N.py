@@ -218,4 +218,16 @@ LOCALE = {
         "en": "Save successfully.",
         "zh_Hans": "保存成功。",
     },
+    "MB1 to select items, MB3 to edit.": {
+        "en": "MB1 to select items, MB3 to edit.",
+        "zh_Hans": "左键选取列表项，右键编辑。",
+    },
+    "Please keep a backup in case of data loss.": {
+        "en": "Please keep a backup in case of data loss.",
+        "zh_Hans": "请注意保留备份，以防数据丢失。",
+    },
+    " Please keep a backup in case of data loss.": {
+        "en": " Please keep a backup in case of data loss.",
+        "zh_Hans": "请注意保留备份，以防数据丢失。",
+    },
 }
