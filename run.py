@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from sys import modules
-from tkinter import filedialog, messagebox, simpledialog, ttk
+from tkinter import filedialog, messagebox, ttk
 
 from save_tools import palworld_save_tools
 
@@ -24,7 +24,7 @@ from save_tools.palworld_save_tools.paltypes import (
     PALWORLD_CUSTOM_PROPERTIES,
     PALWORLD_TYPE_HINTS,
 )
-from unpack import ACTION_SKILLS, CHARACTER_IDS, DT_PET, PASSIVE_SKILLS
+from unpack import CHARACTER_IDS, DT_PET, KV_PASSIVE_SKILL, KV_WAZA
 
 
 async def get_submodule_commit():
@@ -2032,32 +2032,34 @@ class WazaEditWindow(tk.Toplevel):
             )
             self.focus_set()
             return
-        waza_id = simpledialog.askstring(
-            self.parent.parent.l10n.get("Waza ID"),
-            self.parent.parent.l10n.get("Enter Waza ID"),
-            initialvalue="EPalWazaID::",
-            parent=self,
-        )
-        if not waza_id:
-            return
-        if not waza_id in ACTION_SKILLS:
-            messagebox.showerror(
-                self.parent.parent.l10n.get("Error"),
-                self.parent.parent.l10n.get("Waza ID is invalid."),
-                parent=self,
-            )
-            self.focus_set()
-            return
-        if waza_id in l:
-            messagebox.showerror(
-                self.parent.parent.l10n.get("Error"),
-                self.parent.parent.l10n.get("Duplicate Waza ID is not allowed."),
-                parent=self,
-            )
-            self.focus_set()
-            return
-        l.insert(selected, waza_id)
-        self.waza_list_listvar.set(l)
+        # waza_id = simpledialog.askstring(
+        #     self.parent.parent.l10n.get("Waza ID"),
+        #     self.parent.parent.l10n.get("Enter Waza ID"),
+        #     initialvalue="EPalWazaID::",
+        #     parent=self,
+        # )
+        # if not waza_id:
+        #     return
+        # if not waza_id in ACTION_SKILLS:
+        #     messagebox.showerror(
+        #         self.parent.parent.l10n.get("Error"),
+        #         self.parent.parent.l10n.get("Waza ID is invalid."),
+        #         parent=self,
+        #     )
+        #     self.focus_set()
+        #     return
+        # if waza_id in l:
+        #     messagebox.showerror(
+        #         self.parent.parent.l10n.get("Error"),
+        #         self.parent.parent.l10n.get("Duplicate Waza ID is not allowed."),
+        #         parent=self,
+        #     )
+        #     self.focus_set()
+        #     return
+        # l.insert(selected, waza_id)
+        # self.waza_list_listvar.set(l)
+        waza_select_window = WazaSelectWindow(self)
+        waza_select_window.grab_set()
 
     def move_up(self):
         selected = self.waza_list_listbox.curselection()
@@ -2119,6 +2121,74 @@ class WazaEditWindow(tk.Toplevel):
     def destroy(self) -> None:
         self.parent.focus_set()
         return super().destroy()
+
+
+class WazaSelectWindow(tk.Toplevel):
+    def __init__(self, parent: WazaEditWindow):
+        super().__init__(parent)
+        self.parent = parent
+        self.l10n = self.parent.parent.parent.l10n
+        self.title(self.l10n.get("Select Waza"))
+        self.minsize(300, 200)
+        self.resizable(False, False)
+        self.create_widgets()
+        self.focus_set()
+
+    def create_widgets(self):
+        self.waza_list_frame = ttk.Frame(self)
+        self.waza_list_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.waza_list_listbox = tk.Listbox(
+            self.waza_list_frame, yscrollcommand=self.update_waza_list_scrollbar
+        )
+        self.waza_list_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        for waza in sorted(list(KV_WAZA[self.l10n.get_locale()])):
+            self.waza_list_listbox.insert(tk.END, waza)
+
+        self.waza_list_scrollbar = ttk.Scrollbar(
+            self.waza_list_frame, command=self.waza_list_listbox.yview
+        )
+        self.waza_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.confirm_button = ttk.Button(
+            self,
+            text=self.l10n.get("Confirm"),
+            command=self.confirm,
+        )
+        self.confirm_button.pack(
+            fill=tk.BOTH,
+            expand=True,
+            ipadx=self.parent.parent.parent.recommended_ipadx,
+            ipady=self.parent.parent.parent.recommended_ipady,
+        )
+
+    def update_waza_list_scrollbar(self, first, last):
+        first, last = float(first), float(last)
+        if first <= 0 and last >= 1:
+            self.waza_list_scrollbar.pack_forget()
+        else:
+            self.waza_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.waza_list_scrollbar.set(first, last)
+
+    def confirm(self):
+        selected = self.waza_list_listbox.curselection()
+        if not selected:
+            return
+        selected = selected[0]
+        waza_id = KV_WAZA[self.l10n.get_locale()][self.waza_list_listbox.get(selected)]
+        l = list(self.parent.waza_list_listvar.get())
+        if waza_id in l:
+            messagebox.showerror(
+                self.l10n.get("Error"),
+                self.l10n.get("Duplicate Waza ID is not allowed."),
+                parent=self,
+            )
+            self.focus_set()
+            return
+        l.insert(selected, waza_id)
+        self.parent.waza_list_listvar.set(l)
+        self.destroy()
 
 
 class PassiveSkillListEditWindow(tk.Toplevel):
@@ -2237,22 +2307,22 @@ class PassiveSkillListEditWindow(tk.Toplevel):
             )
             self.focus_set()
             return
-        passive_skill_id = simpledialog.askstring(
-            self.parent.parent.l10n.get("Passive Skill ID"),
-            self.parent.parent.l10n.get("Enter Passive Skill ID"),
-            # initialvalue="EPalPassiveSkillID::",
-            parent=self,
-        )
-        if not passive_skill_id:
-            return
-        if not passive_skill_id in PASSIVE_SKILLS:
-            messagebox.showerror(
-                self.parent.parent.l10n.get("Error"),
-                self.parent.parent.l10n.get("Passive Skill ID is invalid."),
-                parent=self,
-            )
-            self.focus_set()
-            return
+        # passive_skill_id = simpledialog.askstring(
+        #     self.parent.parent.l10n.get("Passive Skill ID"),
+        #     self.parent.parent.l10n.get("Enter Passive Skill ID"),
+        #     # initialvalue="EPalPassiveSkillID::",
+        #     parent=self,
+        # )
+        # if not passive_skill_id:
+        #     return
+        # if not passive_skill_id in PASSIVE_SKILLS:
+        #     messagebox.showerror(
+        #         self.parent.parent.l10n.get("Error"),
+        #         self.parent.parent.l10n.get("Passive Skill ID is invalid."),
+        #         parent=self,
+        #     )
+        #     self.focus_set()
+        #     return
         # if passive_skill_id in l:
         #     messagebox.showerror(
         #         self.parent.parent.l10n.get("Error"),
@@ -2261,8 +2331,10 @@ class PassiveSkillListEditWindow(tk.Toplevel):
         #     )
         #     self.focus_set()
         #     return
-        l.insert(selected, passive_skill_id)
-        self.passive_skill_list_listvar.set(l)
+        # l.insert(selected, passive_skill_id)
+        # self.passive_skill_list_listvar.set(l)
+        passive_skill_select_window = PassiveSkillSelectWindow(self)
+        passive_skill_select_window.grab_set()
 
     def move_up(self):
         selected = self.passive_skill_list_listbox.curselection()
@@ -2316,6 +2388,69 @@ class PassiveSkillListEditWindow(tk.Toplevel):
     def destroy(self) -> None:
         self.parent.focus_set()
         return super().destroy()
+
+
+class PassiveSkillSelectWindow(tk.Toplevel):
+    def __init__(self, parent: PassiveSkillListEditWindow):
+        super().__init__(parent)
+        self.parent = parent
+        self.l10n = self.parent.parent.parent.l10n
+        self.title(self.l10n.get("Select Passive Skill"))
+        self.minsize(300, 200)
+        self.resizable(False, False)
+        self.create_widgets()
+        self.focus_set()
+
+    def create_widgets(self):
+        self.passive_skill_list_frame = ttk.Frame(self)
+        self.passive_skill_list_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.passive_skill_list_listbox = tk.Listbox(
+            self.passive_skill_list_frame,
+            yscrollcommand=self.update_passive_skill_list_scrollbar,
+        )
+        self.passive_skill_list_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        for passive_skill in sorted(list(KV_PASSIVE_SKILL[self.l10n.get_locale()])):
+            self.passive_skill_list_listbox.insert(tk.END, passive_skill)
+
+        self.passive_skill_list_scrollbar = ttk.Scrollbar(
+            self.passive_skill_list_frame, command=self.passive_skill_list_listbox.yview
+        )
+        self.passive_skill_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.confirm_button = ttk.Button(
+            self,
+            text=self.l10n.get("Confirm"),
+            command=self.confirm,
+        )
+        self.confirm_button.pack(
+            fill=tk.BOTH,
+            expand=True,
+            ipadx=self.parent.parent.parent.recommended_ipadx,
+            ipady=self.parent.parent.parent.recommended_ipady,
+        )
+
+    def update_passive_skill_list_scrollbar(self, first, last):
+        first, last = float(first), float(last)
+        if first <= 0 and last >= 1:
+            self.passive_skill_list_scrollbar.pack_forget()
+        else:
+            self.passive_skill_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+            self.passive_skill_list_scrollbar.set(first, last)
+
+    def confirm(self):
+        selected = self.passive_skill_list_listbox.curselection()
+        if not selected:
+            return
+        selected = selected[0]
+        passive_skill_id = KV_PASSIVE_SKILL[self.l10n.get_locale()][
+            self.passive_skill_list_listbox.get(selected)
+        ]
+        l = list(self.parent.passive_skill_list_listvar.get())
+        l.insert(selected, passive_skill_id)
+        self.parent.passive_skill_list_listvar.set(l)
+        self.destroy()
 
 
 class Application(tk.Tk):

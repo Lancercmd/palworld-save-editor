@@ -410,6 +410,14 @@ LOCALE = {
         "en": "Talent Defense cannot be higher than 100.",
         "zh_Hans": "个体：防御 不能高于 100。",
     },
+    "Select Waza": {
+        "en": "Select Waza",
+        "zh_Hans": "选择技能",
+    },
+    "Confirm": {
+        "en": "Confirm",
+        "zh_Hans": "确认",
+    },
     "Edit Passive Skills": {
         "en": "Edit Passive Skills",
         "zh_Hans": "编辑被动技能",
@@ -433,5 +441,9 @@ LOCALE = {
     "Duplicate Passive Skill ID is not allowed.": {
         "en": "Duplicate Passive Skill ID is not allowed.",
         "zh_Hans": "不允许重复的被动技能 ID。",
+    },
+    "Select Passive Skill": {
+        "en": "Select Passive Skill",
+        "zh_Hans": "选择被动技能",
     },
 }
