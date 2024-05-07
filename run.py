@@ -140,7 +140,10 @@ class GuildEditWindow(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.guild = guild
-        self.title(parent.l10n.get("Edit Guild"))
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
+        self.title(self.l10n.get("Edit Guild"))
         self.minsize(300, 200)
         self.resizable(False, False)
         self.create_widgets()
@@ -152,11 +155,9 @@ class GuildEditWindow(tk.Toplevel):
         self.group_id_frame.pack(fill=tk.X, expand=True)
 
         self.group_id_label = ttk.Label(
-            self.group_id_frame, text=self.parent.l10n.get("Guild ID")
+            self.group_id_frame, text=self.l10n.get("Guild ID")
         )
-        self.group_id_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.group_id_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.group_id_stringvar = tk.StringVar(value=self.guild.group_id)
         self.group_id_entry = ttk.Entry(
@@ -166,20 +167,18 @@ class GuildEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.guild_name_frame = ttk.Frame(self)
         self.guild_name_frame.pack(fill=tk.X, expand=True)
 
         self.guild_name_label = ttk.Label(
-            self.guild_name_frame, text=self.parent.l10n.get("Guild Name")
+            self.guild_name_frame, text=self.l10n.get("Guild Name")
         )
-        self.guild_name_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.guild_name_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.guild_name_stringvar = tk.StringVar(value=self.guild.guild_name)
         self.guild_name_entry = ttk.Entry(
@@ -190,19 +189,19 @@ class GuildEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.base_camp_level_frame = ttk.Frame(self)
         self.base_camp_level_frame.pack(fill=tk.X, expand=True)
 
         self.base_camp_level_label = ttk.Label(
-            self.base_camp_level_frame, text=self.parent.l10n.get("Base Camp Level")
+            self.base_camp_level_frame, text=self.l10n.get("Base Camp Level")
         )
         self.base_camp_level_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         validate_level_input_command = self.register(self.validate_level_input)
@@ -222,19 +221,19 @@ class GuildEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.save_button = ttk.Button(
-            self, text=self.parent.l10n.get("Save"), command=self.save
+            self, text=self.l10n.get("Save"), command=self.save
         )
         self.save_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def validate_level_input(self, level: str):
@@ -247,15 +246,15 @@ class GuildEditWindow(tk.Toplevel):
     def validate(self):
         if not self.guild_name_entry.get():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Guild Name cannot be empty."),
+                self.l10n.get("Error"),
+                self.l10n.get("Guild Name cannot be empty."),
                 parent=self,
             )
             return False
         if not self.base_camp_level_entry.get():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Base Camp Level cannot be empty."),
+                self.l10n.get("Error"),
+                self.l10n.get("Base Camp Level cannot be empty."),
                 parent=self,
             )
             return False
@@ -402,7 +401,10 @@ class PlayerEditWindow(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.player = player
-        self.title(parent.l10n.get("Edit Player"))
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
+        self.title(self.l10n.get("Edit Player"))
         self.minsize(300, 200)
         self.resizable(False, False)
         self.create_widgets()
@@ -414,11 +416,9 @@ class PlayerEditWindow(tk.Toplevel):
         self.player_uid_frame.pack(fill=tk.X, expand=True)
 
         self.player_uid_label = ttk.Label(
-            self.player_uid_frame, text=self.parent.l10n.get("Player UID")
+            self.player_uid_frame, text=self.l10n.get("Player UID")
         )
-        self.player_uid_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.player_uid_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.player_uid_stringvar = tk.StringVar(value=self.player.player_uid)
         self.player_uid_entry = ttk.Entry(
@@ -430,20 +430,18 @@ class PlayerEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.nickname_frame = ttk.Frame(self)
         self.nickname_frame.pack(fill=tk.X, expand=True)
 
         self.nickname_label = ttk.Label(
-            self.nickname_frame, text=self.parent.l10n.get("Nickname")
+            self.nickname_frame, text=self.l10n.get("Nickname")
         )
-        self.nickname_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.nickname_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.nickname_stringvar = tk.StringVar(value=self.player.nickname)
         self.nickname_entry = ttk.Entry(
@@ -454,20 +452,16 @@ class PlayerEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.level_frame = ttk.Frame(self)
         self.level_frame.pack(fill=tk.X, expand=True)
 
-        self.level_label = ttk.Label(
-            self.level_frame, text=self.parent.l10n.get("Level")
-        )
-        self.level_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.level_label = ttk.Label(self.level_frame, text=self.l10n.get("Level"))
+        self.level_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         validate_level_input_command = self.register(self.validate_level_input)
 
@@ -486,28 +480,25 @@ class PlayerEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 4,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx + 4,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.exp_frame = ttk.Frame(self)
         self.exp_frame.pack(fill=tk.X, expand=True)
 
-        self.exp_label = ttk.Label(self.exp_frame, text=self.parent.l10n.get("Exp"))
-        self.exp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx)
+        self.exp_label = ttk.Label(self.exp_frame, text=self.l10n.get("Exp"))
+        self.exp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.exp_entry_align_button = ttk.Button(
-            self.exp_frame,
-            text=self.parent.l10n.get("Align"),
-            command=self.validate,
-            width=6,
+            self.exp_frame, text=self.l10n.get("Align"), command=self.validate, width=6
         )
         self.exp_entry_align_button.pack(
             side=tk.RIGHT,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.exp_stringvar = tk.StringVar(value=self.player.exp)
@@ -518,18 +509,18 @@ class PlayerEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 2,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx + 2,
+            ipady=self.recommended_ipady,
         )
 
         self.save_button = ttk.Button(
-            self, text=self.parent.l10n.get("Save"), command=self.save
+            self, text=self.l10n.get("Save"), command=self.save
         )
         self.save_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def validate_level_input(self, level: str):
@@ -546,30 +537,30 @@ class PlayerEditWindow(tk.Toplevel):
     def validate(self):
         if not self.nickname_entry.get():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Nickname cannot be empty."),
+                self.l10n.get("Error"),
+                self.l10n.get("Nickname cannot be empty."),
                 parent=self,
             )
             return False
         if not self.level_entry.get():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Level cannot be empty."),
+                self.l10n.get("Error"),
+                self.l10n.get("Level cannot be empty."),
                 parent=self,
             )
             return False
         if not self.level_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Level must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Level must be a number."),
                 parent=self,
             )
             return False
         # 等级不能低于当前等级
         if int(self.level_entry.get()) < self.player.level:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Level cannot be lower than the current."),
+                self.l10n.get("Error"),
+                self.l10n.get("Level cannot be lower than the current."),
                 parent=self,
             )
             return False
@@ -926,7 +917,10 @@ class PalEditWindow(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.pal = pal
-        self.title(parent.l10n.get("Edit Pal"))
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
+        self.title(self.l10n.get("Edit Pal"))
         self.minsize(600, 400)
         self.resizable(False, False)
         self.create_widgets()
@@ -935,13 +929,13 @@ class PalEditWindow(tk.Toplevel):
 
     def create_widgets(self):
         self.instance_id_frame = ttk.Frame(self)
-        self.instance_id_frame.pack(fill=tk.X, pady=self.parent.recommended_ipady)
+        self.instance_id_frame.pack(fill=tk.X, pady=self.recommended_ipady)
 
         self.instance_id_label = ttk.Label(
-            self.instance_id_frame, text=self.parent.l10n.get("Instance ID")
+            self.instance_id_frame, text=self.l10n.get("Instance ID")
         )
         self.instance_id_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.instance_id_stringvar = tk.StringVar(value=self.pal.instance_id)
@@ -955,18 +949,18 @@ class PalEditWindow(tk.Toplevel):
             anchor=tk.E,
             fill=tk.X,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.character_id_frame = ttk.Frame(self)
-        self.character_id_frame.pack(fill=tk.X, pady=self.parent.recommended_ipady)
+        self.character_id_frame.pack(fill=tk.X, pady=self.recommended_ipady)
 
         self.character_id_label = ttk.Label(
-            self.character_id_frame, text=self.parent.l10n.get("Character ID")
+            self.character_id_frame, text=self.l10n.get("Character ID")
         )
         self.character_id_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.is_rare_pal_boolvar = tk.Variable(value=self.pal.is_rare_pal)
@@ -976,28 +970,28 @@ class PalEditWindow(tk.Toplevel):
         self.is_rare_pal_checkbutton.pack(
             side=tk.RIGHT,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.is_rare_pal_label = ttk.Label(
-            self.character_id_frame, text=self.parent.l10n.get("Rare / Shining")
+            self.character_id_frame, text=self.l10n.get("Rare / Shining")
         )
         self.is_rare_pal_label.pack(
-            side=tk.RIGHT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.RIGHT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.character_id_entry_enable_button = ttk.Button(
             self.character_id_frame,
-            text=self.parent.l10n.get("Edit"),
+            text=self.l10n.get("Edit"),
             command=self.enable_character_id_entry,
         )
         self.character_id_entry_enable_button.pack(
             side=tk.RIGHT,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.character_id_stringvar = tk.StringVar(value=self.pal.character_id)
@@ -1012,8 +1006,8 @@ class PalEditWindow(tk.Toplevel):
             anchor=tk.E,
             fill=tk.X,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.frame_container = ttk.Frame(self)
@@ -1035,11 +1029,9 @@ class PalEditWindow(tk.Toplevel):
         self.gender_frame_right.pack(side=tk.RIGHT, fill=tk.BOTH)
 
         self.gender_label = ttk.Label(
-            self.gender_frame_left, text=self.parent.l10n.get("Gender")
+            self.gender_frame_left, text=self.l10n.get("Gender")
         )
-        self.gender_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.gender_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.gender_button = ttk.Button(
             self.gender_frame_right,
@@ -1050,14 +1042,14 @@ class PalEditWindow(tk.Toplevel):
         )
         self.gender_button.pack(
             side=tk.RIGHT,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.tips_label = ttk.Label(
             self.gender_frame_right,
-            text=self.parent.l10n.get("Click to switch" if self.pal.gender else ""),
+            text=self.l10n.get("Click to switch" if self.pal.gender else ""),
             state=tk.DISABLED,
         )
         self.tips_label.pack(side=tk.LEFT)
@@ -1065,10 +1057,8 @@ class PalEditWindow(tk.Toplevel):
         self.rank_frame = ttk.Frame(self.frame_left)
         self.rank_frame.pack(fill=tk.X, expand=True)
 
-        self.rank_label = ttk.Label(self.rank_frame, text=self.parent.l10n.get("Rank"))
-        self.rank_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.rank_label = ttk.Label(self.rank_frame, text=self.l10n.get("Rank"))
+        self.rank_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.validate_rank_input_command = self.register(self.validate_rank_input)
 
@@ -1086,20 +1076,18 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.rank_hp_frame = ttk.Frame(self.frame_left)
         self.rank_hp_frame.pack(fill=tk.X, expand=True)
 
         self.rank_hp_label = ttk.Label(
-            self.rank_hp_frame, text=self.parent.l10n.get("Rank HP")
+            self.rank_hp_frame, text=self.l10n.get("Rank HP")
         )
-        self.rank_hp_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.rank_hp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.validate_rank_hp_input_command = self.register(self.validate_rank_hp_input)
 
@@ -1117,19 +1105,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.rank_attack_frame = ttk.Frame(self.frame_left)
         self.rank_attack_frame.pack(fill=tk.X, expand=True)
 
         self.rank_attack_label = ttk.Label(
-            self.rank_attack_frame, text=self.parent.l10n.get("Rank Attack")
+            self.rank_attack_frame, text=self.l10n.get("Rank Attack")
         )
         self.rank_attack_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_rank_attack_input_command = self.register(
@@ -1150,19 +1138,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.rank_defense_frame = ttk.Frame(self.frame_left)
         self.rank_defense_frame.pack(fill=tk.X, expand=True)
 
         self.rank_defense_label = ttk.Label(
-            self.rank_defense_frame, text=self.parent.l10n.get("Rank Defense")
+            self.rank_defense_frame, text=self.l10n.get("Rank Defense")
         )
         self.rank_defense_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_rank_defense_input_command = self.register(
@@ -1183,19 +1171,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.rank_craft_speed_frame = ttk.Frame(self.frame_left)
         self.rank_craft_speed_frame.pack(fill=tk.X, expand=True)
 
         self.rank_craft_speed_label = ttk.Label(
-            self.rank_craft_speed_frame, text=self.parent.l10n.get("Rank CraftSpeed")
+            self.rank_craft_speed_frame, text=self.l10n.get("Rank CraftSpeed")
         )
         self.rank_craft_speed_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_rank_craft_speed_input_command = self.register(
@@ -1216,20 +1204,16 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.level_frame = ttk.Frame(self.frame_left)
         self.level_frame.pack(fill=tk.X, expand=True)
 
-        self.level_label = ttk.Label(
-            self.level_frame, text=self.parent.l10n.get("Level")
-        )
-        self.level_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.level_label = ttk.Label(self.level_frame, text=self.l10n.get("Level"))
+        self.level_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         validate_level_input_command = self.register(self.validate_level_input)
 
@@ -1247,28 +1231,25 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.exp_frame = ttk.Frame(self.frame_left)
         self.exp_frame.pack(fill=tk.X, expand=True)
 
-        self.exp_label = ttk.Label(self.exp_frame, text=self.parent.l10n.get("Exp"))
-        self.exp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx)
+        self.exp_label = ttk.Label(self.exp_frame, text=self.l10n.get("Exp"))
+        self.exp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.exp_entry_align_button = ttk.Button(
-            self.exp_frame,
-            text=self.parent.l10n.get("Align"),
-            command=self.validate,
-            width=6,
+            self.exp_frame, text=self.l10n.get("Align"), command=self.validate, width=6
         )
         self.exp_entry_align_button.pack(
             side=tk.RIGHT,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.exp_stringvar = tk.StringVar(value=self.pal.exp)
@@ -1279,25 +1260,23 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 8,
-            ipady=self.parent.recommended_ipady,
-            # padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx + 8,
+            ipady=self.recommended_ipady,
+            # padx=self.recommended_ipadx
         )
 
         self.equip_waza_frame = ttk.Frame(self.frame_right)
         self.equip_waza_frame.pack(fill=tk.X, expand=True)
 
         self.equip_waza_label = ttk.Label(
-            self.equip_waza_frame, text=self.parent.l10n.get("Equip Waza")
+            self.equip_waza_frame, text=self.l10n.get("Equip Waza")
         )
-        self.equip_waza_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.equip_waza_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.equip_waza_listvar = tk.Variable(value=self.pal.equip_waza)
         self.equip_waza_button = ttk.Button(
             self.equip_waza_frame,
-            text=self.parent.l10n.get("Editor"),
+            text=self.l10n.get("Editor"),
             command=self.on_click_equip_waza_button,
             width=14,
         )
@@ -1305,14 +1284,14 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 2,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx + 2,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.equip_waza_modified_stringvar = tk.StringVar(
             value=(
-                self.parent.l10n.get("Modified")
+                self.l10n.get("Modified")
                 if list(self.equip_waza_listvar.get()) != self.pal.equip_waza
                 else None
             )
@@ -1328,16 +1307,16 @@ class PalEditWindow(tk.Toplevel):
         self.mastered_waza_frame.pack(fill=tk.X, expand=True)
 
         self.mastered_waza_label = ttk.Label(
-            self.mastered_waza_frame, text=self.parent.l10n.get("Mastered Waza")
+            self.mastered_waza_frame, text=self.l10n.get("Mastered Waza")
         )
         self.mastered_waza_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.mastered_waza_listvar = tk.Variable(value=self.pal.mastered_waza)
         self.mastered_waza_button = ttk.Button(
             self.mastered_waza_frame,
-            text=self.parent.l10n.get("Editor"),
+            text=self.l10n.get("Editor"),
             command=self.on_click_mastered_waza_button,
             width=14,
         )
@@ -1345,14 +1324,14 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 2,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx + 2,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.mastered_waza_modified_stringvar = tk.StringVar(
             value=(
-                self.parent.l10n.get("Modified")
+                self.l10n.get("Modified")
                 if list(self.mastered_waza_listvar.get()) != self.pal.mastered_waza
                 else None
             )
@@ -1368,11 +1347,9 @@ class PalEditWindow(tk.Toplevel):
         self.talent_hp_frame.pack(fill=tk.X, expand=True)
 
         self.talent_hp_label = ttk.Label(
-            self.talent_hp_frame, text=self.parent.l10n.get("Talent: HP")
+            self.talent_hp_frame, text=self.l10n.get("Talent: HP")
         )
-        self.talent_hp_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
-        )
+        self.talent_hp_label.pack(side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx)
 
         self.validate_talent_hp_input_command = self.register(
             self.validate_talent_hp_input
@@ -1392,19 +1369,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.talent_melee_frame = ttk.Frame(self.frame_right)
         self.talent_melee_frame.pack(fill=tk.X, expand=True)
 
         self.talent_melee_label = ttk.Label(
-            self.talent_melee_frame, text=self.parent.l10n.get("Talent: Melee")
+            self.talent_melee_frame, text=self.l10n.get("Talent: Melee")
         )
         self.talent_melee_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_talent_melee_input_command = self.register(
@@ -1425,19 +1402,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.talent_shot_frame = ttk.Frame(self.frame_right)
         self.talent_shot_frame.pack(fill=tk.X, expand=True)
 
         self.talent_shot_label = ttk.Label(
-            self.talent_shot_frame, text=self.parent.l10n.get("Talent: Shot")
+            self.talent_shot_frame, text=self.l10n.get("Talent: Shot")
         )
         self.talent_shot_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_talent_shot_input_command = self.register(
@@ -1458,19 +1435,19 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.talent_defense_frame = ttk.Frame(self.frame_right)
         self.talent_defense_frame.pack(fill=tk.X, expand=True)
 
         self.talent_defense_label = ttk.Label(
-            self.talent_defense_frame, text=self.parent.l10n.get("Talent: Defense")
+            self.talent_defense_frame, text=self.l10n.get("Talent: Defense")
         )
         self.talent_defense_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.validate_talent_defense_input_command = self.register(
@@ -1491,25 +1468,25 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.passive_skill_list_frame = ttk.Frame(self.frame_right)
         self.passive_skill_list_frame.pack(fill=tk.X, expand=True)
 
         self.passive_skill_list_label = ttk.Label(
-            self.passive_skill_list_frame, text=self.parent.l10n.get("Passive Skills")
+            self.passive_skill_list_frame, text=self.l10n.get("Passive Skills")
         )
         self.passive_skill_list_label.pack(
-            side=tk.LEFT, fill=tk.X, padx=self.parent.recommended_ipadx
+            side=tk.LEFT, fill=tk.X, padx=self.recommended_ipadx
         )
 
         self.passive_skill_list_listvar = tk.Variable(value=self.pal.passive_skill_list)
         self.passive_skill_list_button = ttk.Button(
             self.passive_skill_list_frame,
-            text=self.parent.l10n.get("Editor"),
+            text=self.l10n.get("Editor"),
             command=self.on_click_passive_skill_list_button,
             width=14,
         )
@@ -1517,14 +1494,14 @@ class PalEditWindow(tk.Toplevel):
             side=tk.RIGHT,
             anchor=tk.E,
             fill=tk.X,
-            ipadx=self.parent.recommended_ipadx + 2,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx + 2,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.passive_skill_list_modified_stringvar = tk.StringVar(
             value=(
-                self.parent.l10n.get("Modified")
+                self.l10n.get("Modified")
                 if list(self.passive_skill_list_listvar.get())
                 != self.pal.passive_skill_list
                 else None
@@ -1544,40 +1521,40 @@ class PalEditWindow(tk.Toplevel):
 
         self.ranks_max_button = ttk.Button(
             self.quick_action_frame,
-            text=self.parent.l10n.get("Ranks MAX"),
+            text=self.l10n.get("Ranks MAX"),
             command=self.on_click_ranks_max_button,
         )
         self.ranks_max_button.pack(
             side=tk.LEFT,
             fill=tk.X,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.talents_max_button = ttk.Button(
             self.quick_action_frame,
-            text=self.parent.l10n.get("Talents MAX"),
+            text=self.l10n.get("Talents MAX"),
             command=self.on_click_talents_max_button,
         )
         self.talents_max_button.pack(
             side=tk.RIGHT,
             fill=tk.X,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
-            padx=self.parent.recommended_ipadx,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
+            padx=self.recommended_ipadx,
         )
 
         self.save_button = ttk.Button(
-            self, text=self.parent.l10n.get("Save"), command=self.save
+            self, text=self.l10n.get("Save"), command=self.save
         )
         self.save_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.recommended_ipadx,
-            ipady=self.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def on_click_ranks_max_button(self):
@@ -1696,141 +1673,141 @@ class PalEditWindow(tk.Toplevel):
         if str(self.character_id_entry.cget("state")) != tk.DISABLED:
             if not self.character_id_stringvar.get():
                 messagebox.showerror(
-                    self.parent.l10n.get("Error"),
-                    self.parent.l10n.get("Character ID cannot be empty."),
+                    self.l10n.get("Error"),
+                    self.l10n.get("Character ID cannot be empty."),
                     parent=self,
                 )
                 return False
             if not self.character_id_stringvar.get() in CHARACTER_IDS:
                 messagebox.showerror(
-                    self.parent.l10n.get("Error"),
-                    self.parent.l10n.get("Character ID is invalid."),
+                    self.l10n.get("Error"),
+                    self.l10n.get("Character ID is invalid."),
                     parent=self,
                 )
                 return False
         if not self.rank_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank must be a number."),
                 parent=self,
             )
             return False
         if int(self.rank_entry.get()) > 5:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank cannot be higher than 5."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank cannot be higher than 5."),
                 parent=self,
             )
             return False
         if not self.rank_hp_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank HP must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank HP must be a number."),
                 parent=self,
             )
             return False
         if int(self.rank_hp_entry.get()) > 10:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank HP cannot be higher than 10."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank HP cannot be higher than 10."),
                 parent=self,
             )
             return False
         if not self.rank_attack_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank Attack must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank Attack must be a number."),
                 parent=self,
             )
             return False
         if int(self.rank_attack_entry.get()) > 10:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank Attack cannot be higher than 10."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank Attack cannot be higher than 10."),
                 parent=self,
             )
             return False
         if not self.rank_defense_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank Defense must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank Defense must be a number."),
                 parent=self,
             )
             return False
         if int(self.rank_defense_entry.get()) > 10:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank Defense cannot be higher than 10."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank Defense cannot be higher than 10."),
                 parent=self,
             )
             return False
         if not self.rank_craft_speed_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank CraftSpeed must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank CraftSpeed must be a number."),
                 parent=self,
             )
             return False
         if int(self.rank_craft_speed_entry.get()) > 10:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Rank CraftSpeed cannot be higher than 10."),
+                self.l10n.get("Error"),
+                self.l10n.get("Rank CraftSpeed cannot be higher than 10."),
                 parent=self,
             )
             return False
         if not self.talent_hp_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent HP must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent HP must be a number."),
                 parent=self,
             )
             return False
         if int(self.talent_hp_entry.get()) > 100:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent HP cannot be higher than 100."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent HP cannot be higher than 100."),
                 parent=self,
             )
             return False
         if not self.talent_melee_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Melee must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Melee must be a number."),
                 parent=self,
             )
             return False
         if int(self.talent_melee_entry.get()) > 100:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Melee cannot be higher than 100."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Melee cannot be higher than 100."),
                 parent=self,
             )
             return False
         if not self.talent_shot_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Shot must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Shot must be a number."),
                 parent=self,
             )
             return False
         if int(self.talent_shot_entry.get()) > 100:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Shot cannot be higher than 100."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Shot cannot be higher than 100."),
                 parent=self,
             )
             return False
         if not self.talent_defense_entry.get().isdigit():
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Defense must be a number."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Defense must be a number."),
                 parent=self,
             )
             return False
         if int(self.talent_defense_entry.get()) > 100:
             messagebox.showerror(
-                self.parent.l10n.get("Error"),
-                self.parent.l10n.get("Talent Defense cannot be higher than 100."),
+                self.l10n.get("Error"),
+                self.l10n.get("Talent Defense cannot be higher than 100."),
                 parent=self,
             )
             return False
@@ -1921,8 +1898,11 @@ class WazaEditWindow(tk.Toplevel):
         self.parent = parent
         self.listvar = variable
         self.is_equip_waza = is_equip_waza
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
         self.title(
-            parent.parent.l10n.get(
+            self.l10n.get(
                 "Edit Equip Waza" if self.is_equip_waza else "Edit Mastered Waza"
             )
         )
@@ -1972,38 +1952,36 @@ class WazaEditWindow(tk.Toplevel):
 
         self.remove_selected_button = ttk.Button(
             self.remove_frame,
-            text=self.parent.parent.l10n.get("Remove Selected"),
+            text=self.l10n.get("Remove Selected"),
             command=self.remove,
         )
         self.remove_selected_button.pack(
             side=tk.LEFT,
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.remove_all_button = ttk.Button(
-            self.remove_frame,
-            text=self.parent.parent.l10n.get("Remove All"),
-            command=self.remove_all,
+            self.remove_frame, text=self.l10n.get("Remove All"), command=self.remove_all
         )
         self.remove_all_button.pack(
             side=tk.LEFT,
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.save_button = ttk.Button(
-            self, text=self.parent.parent.l10n.get("Save"), command=self.save
+            self, text=self.l10n.get("Save"), command=self.save
         )
         self.save_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def on_right_click_waza_list(self, event):
@@ -2026,33 +2004,33 @@ class WazaEditWindow(tk.Toplevel):
         l = list(self.waza_list_listvar.get())
         if self.is_equip_waza and len(l) == 3:
             messagebox.showinfo(
-                self.parent.parent.l10n.get("Info"),
-                self.parent.parent.l10n.get("Equip Waza cannot have more than 3."),
+                self.l10n.get("Info"),
+                self.l10n.get("Equip Waza cannot have more than 3."),
                 parent=self,
             )
             self.focus_set()
             return
         # waza_id = simpledialog.askstring(
-        #     self.parent.parent.l10n.get("Waza ID"),
-        #     self.parent.parent.l10n.get("Enter Waza ID"),
+        #     self.l10n.get("Waza ID"),
+        #     self.l10n.get("Enter Waza ID"),
         #     initialvalue="EPalWazaID::",
-        #     parent=self,
+        #     parent=self
         # )
         # if not waza_id:
         #     return
         # if not waza_id in ACTION_SKILLS:
         #     messagebox.showerror(
-        #         self.parent.parent.l10n.get("Error"),
-        #         self.parent.parent.l10n.get("Waza ID is invalid."),
-        #         parent=self,
+        #         self.l10n.get("Error"),
+        #         self.l10n.get("Waza ID is invalid."),
+        #         parent=self
         #     )
         #     self.focus_set()
         #     return
         # if waza_id in l:
         #     messagebox.showerror(
-        #         self.parent.parent.l10n.get("Error"),
-        #         self.parent.parent.l10n.get("Duplicate Waza ID is not allowed."),
-        #         parent=self,
+        #         self.l10n.get("Error"),
+        #         self.l10n.get("Duplicate Waza ID is not allowed."),
+        #         parent=self
         #     )
         #     self.focus_set()
         #     return
@@ -2109,13 +2087,9 @@ class WazaEditWindow(tk.Toplevel):
         self.listvar.set(self.waza_list_listvar.get())
         self.parent.modified = True
         if self.is_equip_waza:
-            self.parent.equip_waza_modified_stringvar.set(
-                self.parent.parent.l10n.get("Modified")
-            )
+            self.parent.equip_waza_modified_stringvar.set(self.l10n.get("Modified"))
         else:
-            self.parent.mastered_waza_modified_stringvar.set(
-                self.parent.parent.l10n.get("Modified")
-            )
+            self.parent.mastered_waza_modified_stringvar.set(self.l10n.get("Modified"))
         self.destroy()
 
     def destroy(self) -> None:
@@ -2127,7 +2101,9 @@ class WazaSelectWindow(tk.Toplevel):
     def __init__(self, parent: WazaEditWindow):
         super().__init__(parent)
         self.parent = parent
-        self.l10n = self.parent.parent.parent.l10n
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
         self.title(self.l10n.get("Select Waza"))
         self.minsize(300, 200)
         self.resizable(False, False)
@@ -2152,15 +2128,13 @@ class WazaSelectWindow(tk.Toplevel):
         self.waza_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.confirm_button = ttk.Button(
-            self,
-            text=self.l10n.get("Confirm"),
-            command=self.confirm,
+            self, text=self.l10n.get("Confirm"), command=self.confirm
         )
         self.confirm_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def update_waza_list_scrollbar(self, first, last):
@@ -2196,7 +2170,10 @@ class PassiveSkillListEditWindow(tk.Toplevel):
         super().__init__(parent)
         self.parent = parent
         self.listvar = variable
-        self.title(parent.parent.l10n.get("Edit Passive Skills"))
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
+        self.title(self.l10n.get("Edit Passive Skills"))
         self.minsize(300, 200)
         self.resizable(False, False)
         self.create_widgets()
@@ -2245,38 +2222,36 @@ class PassiveSkillListEditWindow(tk.Toplevel):
 
         self.remove_selected_button = ttk.Button(
             self.remove_frame,
-            text=self.parent.parent.l10n.get("Remove Selected"),
+            text=self.l10n.get("Remove Selected"),
             command=self.remove,
         )
         self.remove_selected_button.pack(
             side=tk.LEFT,
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.remove_all_button = ttk.Button(
-            self.remove_frame,
-            text=self.parent.parent.l10n.get("Remove All"),
-            command=self.remove_all,
+            self.remove_frame, text=self.l10n.get("Remove All"), command=self.remove_all
         )
         self.remove_all_button.pack(
             side=tk.LEFT,
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
         self.save_button = ttk.Button(
-            self, text=self.parent.parent.l10n.get("Save"), command=self.save
+            self, text=self.l10n.get("Save"), command=self.save
         )
         self.save_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def on_right_click_passive_skill_list(self, event):
@@ -2301,33 +2276,33 @@ class PassiveSkillListEditWindow(tk.Toplevel):
         l = list(self.passive_skill_list_listvar.get())
         if len(l) == 4:
             messagebox.showinfo(
-                self.parent.parent.l10n.get("Info"),
-                self.parent.parent.l10n.get("Passive Skills cannot have more than 4."),
+                self.l10n.get("Info"),
+                self.l10n.get("Passive Skills cannot have more than 4."),
                 parent=self,
             )
             self.focus_set()
             return
         # passive_skill_id = simpledialog.askstring(
-        #     self.parent.parent.l10n.get("Passive Skill ID"),
-        #     self.parent.parent.l10n.get("Enter Passive Skill ID"),
+        #     self.l10n.get("Passive Skill ID"),
+        #     self.l10n.get("Enter Passive Skill ID"),
         #     # initialvalue="EPalPassiveSkillID::",
-        #     parent=self,
+        #     parent=self
         # )
         # if not passive_skill_id:
         #     return
         # if not passive_skill_id in PASSIVE_SKILLS:
         #     messagebox.showerror(
-        #         self.parent.parent.l10n.get("Error"),
-        #         self.parent.parent.l10n.get("Passive Skill ID is invalid."),
-        #         parent=self,
+        #         self.l10n.get("Error"),
+        #         self.l10n.get("Passive Skill ID is invalid."),
+        #         parent=self
         #     )
         #     self.focus_set()
         #     return
         # if passive_skill_id in l:
         #     messagebox.showerror(
-        #         self.parent.parent.l10n.get("Error"),
-        #         self.parent.parent.l10n.get("Duplicate Passive Skill ID is not allowed."),
-        #         parent=self,
+        #         self.l10n.get("Error"),
+        #         self.l10n.get("Duplicate Passive Skill ID is not allowed."),
+        #         parent=self
         #     )
         #     self.focus_set()
         #     return
@@ -2380,9 +2355,7 @@ class PassiveSkillListEditWindow(tk.Toplevel):
             return
         self.listvar.set(self.passive_skill_list_listvar.get())
         self.parent.modified = True
-        self.parent.passive_skill_list_modified_stringvar.set(
-            self.parent.parent.l10n.get("Modified")
-        )
+        self.parent.passive_skill_list_modified_stringvar.set(self.l10n.get("Modified"))
         self.destroy()
 
     def destroy(self) -> None:
@@ -2394,7 +2367,9 @@ class PassiveSkillSelectWindow(tk.Toplevel):
     def __init__(self, parent: PassiveSkillListEditWindow):
         super().__init__(parent)
         self.parent = parent
-        self.l10n = self.parent.parent.parent.l10n
+        self.l10n = parent.l10n
+        self.recommended_ipadx = parent.recommended_ipadx
+        self.recommended_ipady = parent.recommended_ipady
         self.title(self.l10n.get("Select Passive Skill"))
         self.minsize(300, 200)
         self.resizable(False, False)
@@ -2420,15 +2395,13 @@ class PassiveSkillSelectWindow(tk.Toplevel):
         self.passive_skill_list_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.confirm_button = ttk.Button(
-            self,
-            text=self.l10n.get("Confirm"),
-            command=self.confirm,
+            self, text=self.l10n.get("Confirm"), command=self.confirm
         )
         self.confirm_button.pack(
             fill=tk.BOTH,
             expand=True,
-            ipadx=self.parent.parent.parent.recommended_ipadx,
-            ipady=self.parent.parent.parent.recommended_ipady,
+            ipadx=self.recommended_ipadx,
+            ipady=self.recommended_ipady,
         )
 
     def update_passive_skill_list_scrollbar(self, first, last):
@@ -2863,7 +2836,7 @@ class Application(tk.Tk):
                     "防御力 个体值",
                     "被动技能",
                     # "HP",
-                    # "SAN 值",
+                    # "SAN 值"
                 )
             )
         self.pal_list.column("帕鲁 ID", width=self.base_font_size * 14, stretch=False)
