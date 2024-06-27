@@ -469,7 +469,7 @@ class PlayerEditWindow(tk.Toplevel):
         self.level_entry = ttk.Spinbox(
             self.level_frame,
             from_=max(2, self.player.level),
-            to=50,
+            to=55,
             textvariable=self.level_stringvar,
             validate="key",
             validatecommand=(validate_level_input_command, "%P"),
@@ -526,7 +526,7 @@ class PlayerEditWindow(tk.Toplevel):
     def validate_level_input(self, level: str):
         if not level.isdigit():
             return False
-        if int(level) > 50:
+        if int(level) > 55:
             return False
         if int(self.level_entry.get()) != self.player.level:
             self.exp_stringvar.set(DT_PET[level]["TotalEXP"] - 1)
@@ -1221,7 +1221,7 @@ class PalEditWindow(tk.Toplevel):
         self.level_entry = ttk.Spinbox(
             self.level_frame,
             from_=max(2, self.pal.level),
-            to=50,
+            to=55,
             textvariable=self.level_stringvar,
             validate="key",
             validatecommand=(validate_level_input_command, "%P"),
@@ -1652,7 +1652,7 @@ class PalEditWindow(tk.Toplevel):
     def validate_level_input(self, level: str):
         if not level.isdigit():
             return False
-        if int(level) > 50:
+        if int(level) > 55:
             return False
         if int(self.level_entry.get()) != self.pal.level:
             self.exp_stringvar.set(DT_PET[level]["PalTotalEXP"] - 1)

@@ -5,7 +5,7 @@
     "Class": "UScriptClass'DataTable'",
     "Properties": {
       "RowStruct": {
-        "ObjectName": "ScriptStruct'PalLocalizedTextData'",
+        "ObjectName": "Class'PalLocalizedTextData'",
         "ObjectPath": "/Script/Pal"
       }
     },
@@ -1398,8 +1398,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_Unique_FlowerDinosaur_Whip_TextData",
-          "SourceString": "植物猛击",
-          "LocalizedString": "植物猛击"
+          "SourceString": "花龙摆尾",
+          "LocalizedString": "花龙摆尾"
         }
       },
       "ACTION_SKILL_Unique_SheepBall_Roll": {
@@ -1622,8 +1622,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_Unique_FireKirin_Dark_DarkTossin_TextData",
-          "SourceString": "暗影冲撞",
-          "LocalizedString": "暗影冲撞"
+          "SourceString": "暗焰冲撞",
+          "LocalizedString": "暗焰冲撞"
         }
       },
       "ACTION_SKILL_Unique_FlameBuffalo_FlameHorn": {
@@ -1710,8 +1710,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_Unique_KingBahamut_AirCrash_TextData",
-          "SourceString": "zh-Hans Text",
-          "LocalizedString": "zh-Hans Text"
+          "SourceString": "龙陨震击",
+          "LocalizedString": "龙陨震击"
         }
       },
       "ACTION_SKILL_Unique_Kirin_LightningTackle": {
@@ -1906,6 +1906,126 @@
           "LocalizedString": "烈焰华尔兹"
         }
       },
+      "ACTION_SKILL_Unique_KingBahamut_ArmSmash": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_KingBahamut_ArmSmash_TextData",
+          "SourceString": "焚天爆炎",
+          "LocalizedString": "焚天爆炎"
+        }
+      },
+      "ACTION_SKILL_Unique_MoonQueen_MoonBeam": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_MoonQueen_MoonBeam_TextData",
+          "SourceString": "皎月射线",
+          "LocalizedString": "皎月射线"
+        }
+      },
+      "ACTION_SKILL_Unique_MoonQueen_MoonBlade": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_MoonQueen_MoonBlade_TextData",
+          "SourceString": "青月刃",
+          "LocalizedString": "青月刃"
+        }
+      },
+      "ACTION_SKILL_Unique_WingGolem_RoundCutter": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_WingGolem_RoundCutter_TextData",
+          "SourceString": "回旋岩锯",
+          "LocalizedString": "回旋岩锯"
+        }
+      },
+      "ACTION_SKILL_Unique_FeatherOstrich_Tossin": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_FeatherOstrich_Tossin_TextData",
+          "SourceString": "地之冲锋",
+          "LocalizedString": "地之冲锋"
+        }
+      },
+      "ACTION_SKILL_Unique_DarkAlien_JumpScractch": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_DarkAlien_JumpScractch_TextData",
+          "SourceString": "恶之爪",
+          "LocalizedString": "恶之爪"
+        }
+      },
+      "ACTION_SKILL_Unique_ScorpionMan_UpperCut": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_ScorpionMan_UpperCut_TextData",
+          "SourceString": "升虫拳",
+          "LocalizedString": "升虫拳"
+        }
+      },
+      "ACTION_SKILL_Unique_SifuDog_Counter": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_SifuDog_Counter_TextData",
+          "SourceString": "气合返",
+          "LocalizedString": "气合返"
+        }
+      },
+      "ACTION_SKILL_Unique_ElecPanda_GatlingAttack": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_ElecPanda_GatlingAttack_TextData",
+          "SourceString": "雷击的重型战车",
+          "LocalizedString": "雷击的重型战车"
+        }
+      },
+      "ACTION_SKILL_Unique_LilyQueen_LilyHealing": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_LilyQueen_LilyHealing_TextData",
+          "SourceString": "丰饶加护",
+          "LocalizedString": "丰饶加护"
+        }
+      },
+      "ACTION_SKILL_Unique_ThunderDragonMan_NumerousSwordAttack": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_ThunderDragonMan_NumerousSwordAttack_TextData",
+          "SourceString": "雷神之怒",
+          "LocalizedString": "雷神之怒"
+        }
+      },
+      "ACTION_SKILL_Unique_Horus_PerfectStorm": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_Horus_PerfectStorm_TextData",
+          "SourceString": "炎凰烈波",
+          "LocalizedString": "炎凰烈波"
+        }
+      },
+      "ACTION_SKILL_Unique_BlackGriffon_TackleLaser2": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_BlackGriffon_TackleLaser2_TextData",
+          "SourceString": "神圣灾祸Ⅱ",
+          "LocalizedString": "神圣灾祸Ⅱ"
+        }
+      },
+      "ACTION_SKILL_Unique_MoonQueen_IceMoonBlade": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_MoonQueen_IceMoonBlade_TextData",
+          "SourceString": "青月闪",
+          "LocalizedString": "青月闪"
+        }
+      },
+      "ACTION_SKILL_Unique_LilyQueen_WindBarrier": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Unique_LilyQueen_WindBarrier_TextData",
+          "SourceString": "风之结界",
+          "LocalizedString": "风之结界"
+        }
+      },
       "ACTION_SKILL_PoisonFog": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -1974,8 +2094,32 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_AirCanon_TextData",
-          "SourceString": "空气炮",
-          "LocalizedString": "空气炮"
+          "SourceString": "空气弹",
+          "LocalizedString": "空气弹"
+        }
+      },
+      "ACTION_SKILL_AirBlade": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_AirBlade_TextData",
+          "SourceString": "真空刃",
+          "LocalizedString": "真空刃"
+        }
+      },
+      "ACTION_SKILL_HolyBlast": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_HolyBlast_TextData",
+          "SourceString": "光击阵",
+          "LocalizedString": "光击阵"
+        }
+      },
+      "ACTION_SKILL_StarMine": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_StarMine_TextData",
+          "SourceString": "诡雷繁星",
+          "LocalizedString": "诡雷繁星"
         }
       },
       "ACTION_SKILL_StardustArrow": {
@@ -2042,6 +2186,38 @@
           "LocalizedString": "地狱火"
         }
       },
+      "ACTION_SKILL_FlameWall": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_FlameWall_TextData",
+          "SourceString": "爆烈火墙",
+          "LocalizedString": "爆烈火墙"
+        }
+      },
+      "ACTION_SKILL_Eruption": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_Eruption_TextData",
+          "SourceString": "熔岩爆发",
+          "LocalizedString": "熔岩爆发"
+        }
+      },
+      "ACTION_SKILL_FlameFunnel": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_FlameFunnel_TextData",
+          "SourceString": "流火",
+          "LocalizedString": "流火"
+        }
+      },
+      "ACTION_SKILL_FlareTwister": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_FlareTwister_TextData",
+          "SourceString": "炎龙舞",
+          "LocalizedString": "炎龙舞"
+        }
+      },
       "ACTION_SKILL_WaterGun": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -2106,6 +2282,22 @@
           "LocalizedString": "酸雨"
         }
       },
+      "ACTION_SKILL_LineGeyser": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_LineGeyser_TextData",
+          "SourceString": "瀑流击",
+          "LocalizedString": "瀑流击"
+        }
+      },
+      "ACTION_SKILL_WallSplash": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_WallSplash_TextData",
+          "SourceString": "间隙潮",
+          "LocalizedString": "间隙潮"
+        }
+      },
       "ACTION_SKILL_WindCutter": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -2158,16 +2350,40 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_SpecialCutter_TextData",
-          "SourceString": "多重利刃",
-          "LocalizedString": "多重利刃"
+          "SourceString": "三重风刃",
+          "LocalizedString": "三重风刃"
+        }
+      },
+      "ACTION_SKILL_RootLance": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_RootLance_TextData",
+          "SourceString": "缠根牢狱",
+          "LocalizedString": "缠根牢狱"
+        }
+      },
+      "ACTION_SKILL_RaidCutter": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_RaidCutter_TextData",
+          "SourceString": "连环风刃",
+          "LocalizedString": "连环风刃"
+        }
+      },
+      "ACTION_SKILL_WindEdge": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_WindEdge_TextData",
+          "SourceString": "烈风切",
+          "LocalizedString": "烈风切"
         }
       },
       "ACTION_SKILL_ThunderRain": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_ThunderRain_TextData",
-          "SourceString": "雷雨",
-          "LocalizedString": "雷雨"
+          "SourceString": "广域雷击",
+          "LocalizedString": "广域雷击"
         }
       },
       "ACTION_SKILL_ThunderBall": {
@@ -2250,6 +2466,46 @@
           "LocalizedString": "闪电冲击"
         }
       },
+      "ACTION_SKILL_TriSpark": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_TriSpark_TextData",
+          "SourceString": "三相火花",
+          "LocalizedString": "三相火花"
+        }
+      },
+      "ACTION_SKILL_ThunderStorm": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_ThunderStorm_TextData",
+          "SourceString": "雷霆飓风",
+          "LocalizedString": "雷霆飓风"
+        }
+      },
+      "ACTION_SKILL_RangeThunder": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_RangeThunder_TextData",
+          "SourceString": "雷动八方",
+          "LocalizedString": "雷动八方"
+        }
+      },
+      "ACTION_SKILL_RailBolt": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_RailBolt_TextData",
+          "SourceString": "并联雷光",
+          "LocalizedString": "并联雷光"
+        }
+      },
+      "ACTION_SKILL_ShokeiLaser": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_ShokeiLaser_TextData",
+          "SourceString": "处刑雷射",
+          "LocalizedString": "处刑雷射"
+        }
+      },
       "ACTION_SKILL_IceMissile": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -2306,6 +2562,38 @@
           "LocalizedString": "晶钻之雨"
         }
       },
+      "ACTION_SKILL_IcicleLine": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_IcicleLine_TextData",
+          "SourceString": "冰锋之路",
+          "LocalizedString": "冰锋之路"
+        }
+      },
+      "ACTION_SKILL_DoubleIcicleThrow": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_DoubleIcicleThrow_TextData",
+          "SourceString": "极寒双星",
+          "LocalizedString": "极寒双星"
+        }
+      },
+      "ACTION_SKILL_IceAge": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_IceAge_TextData",
+          "SourceString": "霜降",
+          "LocalizedString": "霜降"
+        }
+      },
+      "ACTION_SKILL_IciclePierce": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_IciclePierce_TextData",
+          "SourceString": "冰霜连弹",
+          "LocalizedString": "冰霜连弹"
+        }
+      },
       "ACTION_SKILL_SandTornado": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -2352,6 +2640,14 @@
           "Key": "ACTION_SKILL_Tremor_TextData",
           "SourceString": "岩爆",
           "LocalizedString": "岩爆"
+        }
+      },
+      "ACTION_SKILL_SandTwister": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_SandTwister_TextData",
+          "SourceString": "沙尘暴",
+          "LocalizedString": "沙尘暴"
         }
       },
       "ACTION_SKILL_DarkLaser": {
@@ -2458,6 +2754,22 @@
           "LocalizedString": "启示录"
         }
       },
+      "ACTION_SKILL_ChaosLaser": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_ChaosLaser_TextData",
+          "SourceString": "混沌射线",
+          "LocalizedString": "混沌射线"
+        }
+      },
+      "ACTION_SKILL_BubbleShower": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_BubbleShower_TextData",
+          "SourceString": "毒雨",
+          "LocalizedString": "毒雨"
+        }
+      },
       "ACTION_SKILL_DragonMeteor": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
@@ -2494,8 +2806,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_BeamSlicer_TextData",
-          "SourceString": "还没翻译捏",
-          "LocalizedString": "还没翻译捏"
+          "SourceString": "切割龙息",
+          "LocalizedString": "切割龙息"
         }
       },
       "ACTION_SKILL_Commet": {
@@ -2504,6 +2816,46 @@
           "Key": "ACTION_SKILL_Commet_TextData",
           "SourceString": "陨星",
           "LocalizedString": "陨星"
+        }
+      },
+      "ACTION_SKILL_ThreeCommet": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_ThreeCommet_TextData",
+          "SourceString": "三重陨星",
+          "LocalizedString": "三重陨星"
+        }
+      },
+      "ACTION_SKILL_CommetRain": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_CommetRain_TextData",
+          "SourceString": "陨星雨",
+          "LocalizedString": "陨星雨"
+        }
+      },
+      "ACTION_SKILL_BlastCanon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_BlastCanon_TextData",
+          "SourceString": "绽裂龙息",
+          "LocalizedString": "绽裂龙息"
+        }
+      },
+      "ACTION_SKILL_ChargeCanon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_ChargeCanon_TextData",
+          "SourceString": "龙息炮",
+          "LocalizedString": "龙息炮"
+        }
+      },
+      "ACTION_SKILL_TripleCanon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "ACTION_SKILL_TripleCanon_TextData",
+          "SourceString": "三重龙息弹",
+          "LocalizedString": "三重龙息弹"
         }
       },
       "PASSIVE_Attack_ACC_up1": {
@@ -3158,8 +3510,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "PARTNERSKILL_GuardianDog_TextData",
-          "SourceString": "骑",
-          "LocalizedString": "骑"
+          "SourceString": "物以类聚",
+          "LocalizedString": "物以类聚"
         }
       },
       "PARTNERSKILL_HadesBird": {
@@ -3822,8 +4174,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "PARTNERSKILL_SifuDog_TextData",
-          "SourceString": "临时文本",
-          "LocalizedString": "临时文本"
+          "SourceString": "归去来兮",
+          "LocalizedString": "归去来兮"
         }
       },
       "PARTNERSKILL_TentacleTurtle": {
@@ -3862,24 +4214,16 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "PARTNERSKILL_FeatherOstrich_TextData",
-          "SourceString": "临时文本",
-          "LocalizedString": "临时文本"
-        }
-      },
-      "PARTNERSKILL_WingGolem": {
-        "TextData": {
-          "Namespace": "DT_SkillNameText",
-          "Key": "PARTNERSKILL_WingGolem_TextData",
-          "SourceString": "临时文本",
-          "LocalizedString": "临时文本"
+          "SourceString": "飞砂腿",
+          "LocalizedString": "飞砂腿"
         }
       },
       "PARTNERSKILL_ScorpionMan": {
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "PARTNERSKILL_ScorpionMan_TextData",
-          "SourceString": "临时文本",
-          "LocalizedString": "临时文本"
+          "SourceString": "蝎蝎感应",
+          "LocalizedString": "蝎蝎感应"
         }
       },
       "PARTNERSKILL_BlueberryFairy": {
@@ -3904,6 +4248,86 @@
           "Key": "PARTNERSKILL_NightLady_Dark_TextData",
           "SourceString": "噩梦凝视",
           "LocalizedString": "噩梦凝视"
+        }
+      },
+      "PARTNERSKILL_MushroomDragon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_MushroomDragon_TextData",
+          "SourceString": "飘飘然孢子",
+          "LocalizedString": "飘飘然孢子"
+        }
+      },
+      "PARTNERSKILL_MushroomDragon_Dark": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_MushroomDragon_Dark_TextData",
+          "SourceString": "飘飘然孢子",
+          "LocalizedString": "飘飘然孢子"
+        }
+      },
+      "PARTNERSKILL_LeafPrincess": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_LeafPrincess_TextData",
+          "SourceString": "繁花告春",
+          "LocalizedString": "繁花告春"
+        }
+      },
+      "PARTNERSKILL_MoonQueen": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_MoonQueen_TextData",
+          "SourceString": "晦暗辉光",
+          "LocalizedString": "晦暗辉光"
+        }
+      },
+      "PARTNERSKILL_SmallArmadillo": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_SmallArmadillo_TextData",
+          "SourceString": "圆润饱油",
+          "LocalizedString": "圆润饱油"
+        }
+      },
+      "PARTNERSKILL_CandleGhost": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_CandleGhost_TextData",
+          "SourceString": "古墓烛影",
+          "LocalizedString": "古墓烛影"
+        }
+      },
+      "PARTNERSKILL_WingGolem": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_WingGolem_TextData",
+          "SourceString": "钢铁卫士模式",
+          "LocalizedString": "钢铁卫士模式"
+        }
+      },
+      "PARTNERSKILL_DarkAlien": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_DarkAlien_TextData",
+          "SourceString": "陨石爱好者",
+          "LocalizedString": "陨石爱好者"
+        }
+      },
+      "PARTNERSKILL_MimicDog": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_MimicDog_TextData",
+          "SourceString": "撬锁",
+          "LocalizedString": "撬锁"
+        }
+      },
+      "PARTNERSKILL_KendoFrog": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_KendoFrog_TextData",
+          "SourceString": "蓄势跳跃",
+          "LocalizedString": "蓄势跳跃"
         }
       },
       "PASSIVE_TrainerATK_UP_1": {
@@ -4176,6 +4600,222 @@
           "Key": "PASSIVE_Witch_TextData",
           "SourceString": "魔女",
           "LocalizedString": "魔女"
+        }
+      },
+      "PASSIVE_MaxInventoryWeight_up_Equip_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_MaxInventoryWeight_up_Equip_1_TextData",
+          "SourceString": "提升负重上限Lv1",
+          "LocalizedString": "提升负重上限Lv1"
+        }
+      },
+      "PASSIVE_MaxInventoryWeight_up_Equip_2": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_MaxInventoryWeight_up_Equip_2_TextData",
+          "SourceString": "提升负重上限Lv2",
+          "LocalizedString": "提升负重上限Lv2"
+        }
+      },
+      "PASSIVE_MaxInventoryWeight_up_Equip_3": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_MaxInventoryWeight_up_Equip_3_TextData",
+          "SourceString": "提升负重上限Lv3",
+          "LocalizedString": "提升负重上限Lv3"
+        }
+      },
+      "PASSIVE_Nocturnal": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Nocturnal_TextData",
+          "SourceString": "夜行性",
+          "LocalizedString": "夜行性"
+        }
+      },
+      "PASSIVE_CoolTimeReduction_Up_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_CoolTimeReduction_Up_1_TextData",
+          "SourceString": "沉着冷静",
+          "LocalizedString": "沉着冷静"
+        }
+      },
+      "PASSIVE_CoolTimeReduction_Up_2": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_CoolTimeReduction_Up_2_TextData",
+          "SourceString": "急性子",
+          "LocalizedString": "急性子"
+        }
+      },
+      "PASSIVE_CoolTimeReduction_Down_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_CoolTimeReduction_Down_1_TextData",
+          "SourceString": "慢性子",
+          "LocalizedString": "慢性子"
+        }
+      },
+      "PASSIVE_Stamina_Up_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Stamina_Up_1_TextData",
+          "SourceString": "无限精力",
+          "LocalizedString": "无限精力"
+        }
+      },
+      "PASSIVE_Stamina_Up_2": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Stamina_Up_2_TextData",
+          "SourceString": "品学兼优",
+          "LocalizedString": "品学兼优"
+        }
+      },
+      "PASSIVE_Stamina_Down_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Stamina_Down_1_TextData",
+          "SourceString": "家里蹲",
+          "LocalizedString": "家里蹲"
+        }
+      },
+      "PASSIVE_SalePrice_Up_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_SalePrice_Up_1_TextData",
+          "SourceString": "高贵",
+          "LocalizedString": "高贵"
+        }
+      },
+      "PASSIVE_SalePrice_Up_2": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_SalePrice_Up_2_TextData",
+          "SourceString": "贵族",
+          "LocalizedString": "贵族"
+        }
+      },
+      "PASSIVE_SalePrice_Down_1": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_SalePrice_Down_1_TextData",
+          "SourceString": "寒酸",
+          "LocalizedString": "寒酸"
+        }
+      },
+      "PASSIVE_Alien": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Alien_TextData",
+          "SourceString": "未知生物细胞",
+          "LocalizedString": "未知生物细胞"
+        }
+      },
+      "PASSIVE_Test_PalEgg_HatchingSpeed_Up": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_Test_PalEgg_HatchingSpeed_Up_TextData",
+          "SourceString": "博爱主义者",
+          "LocalizedString": "博爱主义者"
+        }
+      },
+      "PARTNERSKILL_KingBahamut_Dragon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_KingBahamut_Dragon_TextData",
+          "SourceString": "巨龙凯撒",
+          "LocalizedString": "巨龙凯撒"
+        }
+      },
+      "PARTNERSKILL_HerculesBeetle_Ground": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_HerculesBeetle_Ground_TextData",
+          "SourceString": "坚硬盔甲",
+          "LocalizedString": "坚硬盔甲"
+        }
+      },
+      "PARTNERSKILL_Gorilla_Ground": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_Gorilla_Ground_TextData",
+          "SourceString": "火力全开大猩猩模式",
+          "LocalizedString": "火力全开大猩猩模式"
+        }
+      },
+      "PARTNERSKILL_HadesBird_Electric": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_HadesBird_Electric_TextData",
+          "SourceString": "雷鸣之翼",
+          "LocalizedString": "雷鸣之翼"
+        }
+      },
+      "PARTNERSKILL_DarkScorpion_Ground": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_DarkScorpion_Ground_TextData",
+          "SourceString": "钢铁之蝎",
+          "LocalizedString": "钢铁之蝎"
+        }
+      },
+      "PARTNERSKILL_Ronin_Dark": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_Ronin_Dark_TextData",
+          "SourceString": "紫电一闪",
+          "LocalizedString": "紫电一闪"
+        }
+      },
+      "PARTNERSKILL_CatMage_Fire": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_CatMage_Fire_TextData",
+          "SourceString": "本草纲目",
+          "LocalizedString": "本草纲目"
+        }
+      },
+      "PARTNERSKILL_FoxMage_Dark": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_FoxMage_Dark_TextData",
+          "SourceString": "巫神大人",
+          "LocalizedString": "巫神大人"
+        }
+      },
+      "PARTNERSKILL_SkyDragon_Grass": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_SkyDragon_Grass_TextData",
+          "SourceString": "翠龙的慈爱",
+          "LocalizedString": "翠龙的慈爱"
+        }
+      },
+      "PARTNERSKILL_WeaselDragon_Fire": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_WeaselDragon_Fire_TextData",
+          "SourceString": "烧鼬鼬",
+          "LocalizedString": "烧鼬鼬"
+        }
+      },
+      "PARTNERSKILL_WhiteAlienDragon": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PARTNERSKILL_WhiteAlienDragon_TextData",
+          "SourceString": "陨石坑爱好者",
+          "LocalizedString": "陨石坑爱好者"
+        }
+      },
+      "PASSIVE_EternalFlame": {
+        "TextData": {
+          "Namespace": "DT_SkillNameText",
+          "Key": "PASSIVE_EternalFlame_TextData",
+          "SourceString": "永炎",
+          "LocalizedString": "永炎"
         }
       }
     }
