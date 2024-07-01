@@ -21,6 +21,7 @@ from save_tools.palworld_save_tools.palsav import (
     decompress_sav_to_gvas,
 )
 from save_tools.palworld_save_tools.paltypes import (
+    DISABLED_PROPERTIES,
     PALWORLD_CUSTOM_PROPERTIES,
     PALWORLD_TYPE_HINTS,
 )
@@ -36,8 +37,11 @@ async def get_submodule_commit():
     return git_desc
 
 
+KNOWN_PROPS = list(set(PALWORLD_CUSTOM_PROPERTIES.keys()) - DISABLED_PROPERTIES)
+
+
 def convert_sav_to_dict(
-    file_path: Path, allow_nan=True, custom_properties_keys=["all"]
+    file_path: Path, allow_nan=True, custom_properties_keys=KNOWN_PROPS
 ):
     print(f"Converting {file_path.name} to JSON")
     print(f"Decompressing sav file")
