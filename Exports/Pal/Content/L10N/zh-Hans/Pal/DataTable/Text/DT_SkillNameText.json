@@ -2654,8 +2654,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_DarkLaser_TextData",
-          "SourceString": "暗黑镭射",
-          "LocalizedString": "暗黑镭射"
+          "SourceString": "暗黑雷射",
+          "LocalizedString": "暗黑雷射"
         }
       },
       "ACTION_SKILL_DarkWave": {
@@ -4670,8 +4670,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "PASSIVE_Stamina_Up_2_TextData",
-          "SourceString": "品学兼优",
-          "LocalizedString": "品学兼优"
+          "SourceString": "健康宝宝",
+          "LocalizedString": "健康宝宝"
         }
       },
       "PASSIVE_Stamina_Down_1": {
