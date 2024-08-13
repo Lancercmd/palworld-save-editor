@@ -2438,8 +2438,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_ThunderFunnel_TextData",
-          "SourceString": "Plasma Tornado",
-          "LocalizedString": "Plasma Tornado"
+          "SourceString": "Plasma Channel",
+          "LocalizedString": "Plasma Channel"
         }
       },
       "ACTION_SKILL_SpreadPulse": {
@@ -2550,8 +2550,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_FrostBreath_TextData",
-          "SourceString": "Cryst Breath",
-          "LocalizedString": "Cryst Breath"
+          "SourceString": "Crystal Breath",
+          "LocalizedString": "Crystal Breath"
         }
       },
       "ACTION_SKILL_DiamondFall": {
@@ -2622,8 +2622,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_MudShot_TextData",
-          "SourceString": "Sand Blast",
-          "LocalizedString": "Sand Blast"
+          "SourceString": "Mud Shot",
+          "LocalizedString": "Mud Shot"
         }
       },
       "ACTION_SKILL_StoneShotgun": {

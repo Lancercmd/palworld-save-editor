@@ -332,7 +332,7 @@ class Player:
             self.character_data["Exp"]["value"] if self.character_data.get("Exp") else 0
         )
         self.nickname: str = self.character_data["NickName"]["value"]
-        self.hp: int = self.character_data["HP"]["value"]["Value"]["value"]
+        self.hp: int = self.character_data["Hp"]["value"]["Value"]["value"]
         self.full_stomach: float = self.character_data["FullStomach"]["value"]
         self.is_player: bool = self.character_data["IsPlayer"]["value"]
         self.support: int = self.character_data["Support"]["value"]

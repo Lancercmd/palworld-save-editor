@@ -2270,8 +2270,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_BubbleShot_TextData",
-          "SourceString": "泡沫射击",
-          "LocalizedString": "泡沫射击"
+          "SourceString": "泡泡射击",
+          "LocalizedString": "泡泡射击"
         }
       },
       "ACTION_SKILL_AcidRain": {
@@ -2598,8 +2598,8 @@
         "TextData": {
           "Namespace": "DT_SkillNameText",
           "Key": "ACTION_SKILL_SandTornado_TextData",
-          "SourceString": "砂砾飓风",
-          "LocalizedString": "砂砾飓风"
+          "SourceString": "沙尘旋风",
+          "LocalizedString": "沙尘旋风"
         }
       },
       "ACTION_SKILL_ThrowRock": {
